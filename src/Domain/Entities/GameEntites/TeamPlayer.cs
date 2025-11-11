@@ -5,8 +5,8 @@
         public int Id { get; private set; }
         public int TeamId { get; private set; }
         public Team? Team { get; private set; }
-        public string PlayerUsername { get; private set; } = null!;
-        public int IndividualScore { get; private set; }
+        public string PlayerUsername { get;  set; } = null!;
+        public int IndividualScore { get;  set; }
 
         public void ScorePoints(int points)
         {

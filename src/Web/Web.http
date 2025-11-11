@@ -3,7 +3,7 @@
 
 @Email=administrator1@localhost
 @Password=Administrator1!
-@BearerToken=CfDJ8B7cQF5Yk9lIqR9uoBQ9xm6TgNZW4w0x9t4dUqjRp0JQi_6kPtgMOXwKLmbjgP7fEQLHI_tFTfNe8r7_rltOmPViPZmwa1f7kJKcJHvie74g8JU6koiPocfMbu52tCT8A0imIjnT8QBDUuv8EuxVbKachz9P4FQ-hwuhOZaVLm-ZIQlDZjkVkyh3Xdwh6gs_p9PFROj90C0Ee9oWURqvPpmuzF2VrkM9E79zfyuGNmTJsPURw_mBFfQq6GXbLAOaF7J8d2Dm1hazuKTR-Uy2UGFgWr3jUE1UEYQW1Os32Cd8nJdSheISmJWtTxhd3shv9gP-Ive0TLXzRr1ExahFa4B_doPrwz8lpxa9sc9o03tHA9P6QSQ1cMX0iLJEmvtaw1xdpsCH4Fhb4gBkFR_Y2HGMSHlNAoADsomOrAnxjsEAL_C3qskp3LRg0OgcsbeJrnKgrhHZ8qjvxdijxEu1kVyJ27Ea2XZ-WrqBUeYz_NFvSSWM6jBeFvgDG-Dd1XWgo_x4LYP0jVDXzUMEPXfFzwIdPSMLtx-Wdl94W7oTDPPGbrIo4pPo4k_ZycVy8wOm0sglNA_QG50f79C-qmON7LcXMU82mYOGk-vsBgnMPMtbOQUEsWRvUJYXoU3yHc0ZwNbM1gtdnbueygsLRvLOdF0OLIlvSKFX8LKmv50jK4yP13ZfbBisb-YGK3myMVLHE10rztL57nNhxJSHPMFz-HI
+@BearerToken=
 # POST Users Register
 POST {{Web_HostAddress}}/api/Users/Register
 Content-Type: application/json
@@ -38,12 +38,16 @@ Content-Type: application/json
 ###
 
 # POST TeamCreate
-POST {{Web_HostAddress}}/api/Match
+POST {{Web_HostAddress}}/api/Team
 Authorization: Bearer {{BearerToken}}
 Content-Type: application/json
 
 {
-  "gameType": 0
+  "gameId": 1,
+  "playersName": [
+    "PlayerOne",
+    "PlayerTwo"
+  ]
 }
 
 ###
