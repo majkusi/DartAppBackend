@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace DartAppClean.Domain.Enums;
 public enum GameTypesEnum
 {
-    CRICKET,
-    X01
+    CRICKET = 0,
+    X01 = 1
 }

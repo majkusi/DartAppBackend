@@ -5,6 +5,7 @@ using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace DartAppClean.Infrastructure.Data;
 
@@ -16,6 +17,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     public DbSet<TodoItem> TodoItems => Set<TodoItem>();
 
+    public DbSet<Game> Game => Set<Game>();
+    public DbSet<Team> Team => Set<Team>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
