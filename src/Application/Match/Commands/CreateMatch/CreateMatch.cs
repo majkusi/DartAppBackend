@@ -13,6 +13,7 @@ namespace DartAppClean.Application.Match.Commands.CreateMatch;
 public record CreateMatchCommand : IRequest<int>
 {
     public GameTypesEnum GameType { get; init; } 
+    public X01TypeEnum? X01TypeEnum { get; init; }
 }
 
 public class CreateMatch : IRequestHandler<CreateMatchCommand, int>
@@ -27,9 +28,11 @@ public class CreateMatch : IRequestHandler<CreateMatchCommand, int>
 
     public async Task<int> Handle(CreateMatchCommand request, CancellationToken cancellationToken)
     {
+
         var entity = new Game
         {
-            GameTypes = request.GameType,            
+            GameTypes = request.GameType,
+            X01TypeEnum = request.X01TypeEnum ?? null
         };
         entity.AddDomainEvent(new GameCreatedEvent(entity));
         _context.Game.Add(entity);
@@ -37,5 +40,4 @@ public class CreateMatch : IRequestHandler<CreateMatchCommand, int>
 
         return entity.Id;
     }
-
 }
