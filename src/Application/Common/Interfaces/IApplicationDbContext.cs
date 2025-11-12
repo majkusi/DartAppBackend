@@ -11,6 +11,7 @@ public interface IApplicationDbContext
 
     DbSet<Game> Game { get; }
     DbSet<Team> Team { get; }
+    DbSet<Round> Round { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

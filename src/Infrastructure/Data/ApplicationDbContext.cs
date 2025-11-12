@@ -19,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     public DbSet<Game> Game => Set<Game>();
     public DbSet<Team> Team => Set<Team>();
+    public DbSet<Round> Round => Set<Round>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -60,23 +61,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
         {
             e.ToTable("Rounds", "game");
             e.HasKey(r => r.Id);
-
-            e.HasMany(r => r.Scores)
-                .WithOne(rs => rs.Round)
-                .HasForeignKey(rs => rs.RoundId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
-
-        builder.Entity<RoundScore>(e =>
-        {
-            e.ToTable("RoundScores", "game");
-            e.HasKey(rs => rs.Id);
-
-            e.HasOne(rs => rs.TeamPlayer)
-                .WithMany()
-                .HasForeignKey(rs => rs.TeamPlayerId)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
-    
+        });   
     }
 }

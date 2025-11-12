@@ -44,6 +44,44 @@
         ]
       }
     },
+    "/api/Round": {
+      "post": {
+        "tags": [
+          "Round"
+        ],
+        "operationId": "CreateRound",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoundCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/Team": {
       "post": {
         "tags": [
@@ -872,6 +910,28 @@
           0,
           1
         ]
+      },
+      "CreateRoundCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "gameId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roundNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "points": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "playerId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
       },
       "CreateTeamCommand": {
         "type": "object",
