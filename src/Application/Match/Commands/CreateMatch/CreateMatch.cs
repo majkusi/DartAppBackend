@@ -14,6 +14,7 @@ public record CreateMatchCommand : IRequest<int>
 {
     public GameTypesEnum GameType { get; init; } 
     public X01TypeEnum? X01TypeEnum { get; init; }
+    public List<string> PlayersName { get; init; } = new List<string>();
 }
 
 public class CreateMatch : IRequestHandler<CreateMatchCommand, int>
@@ -28,16 +29,16 @@ public class CreateMatch : IRequestHandler<CreateMatchCommand, int>
 
     public async Task<int> Handle(CreateMatchCommand request, CancellationToken cancellationToken)
     {
-
-        var entity = new Game
+        var gameEntity = new Game
         {
             GameTypes = request.GameType,
             X01TypeEnum = request.X01TypeEnum ?? null
         };
-        entity.AddDomainEvent(new GameCreatedEvent(entity));
-        _context.Game.Add(entity);
+        gameEntity.AssignTeams(request.PlayersName);
+        gameEntity.AddDomainEvent(new GameCreatedEvent(gameEntity));
+        _context.Game.Add(gameEntity);     
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.Id;
+        return gameEntity.Id;
     }
 }

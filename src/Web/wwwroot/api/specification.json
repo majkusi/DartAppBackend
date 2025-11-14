@@ -896,6 +896,14 @@
         "properties": {
           "gameType": {
             "$ref": "#/components/schemas/GameTypesEnum"
+          },
+          "x01TypeEnum": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/X01TypeEnum"
+              }
+            ]
           }
         }
       },
@@ -909,6 +917,22 @@
         "enum": [
           0,
           1
+        ]
+      },
+      "X01TypeEnum": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "DIDO",
+          "DISO",
+          "SIDO",
+          "SISO"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3
         ]
       },
       "CreateRoundCommand": {
