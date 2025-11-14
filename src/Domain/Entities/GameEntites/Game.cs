@@ -1,7 +1,7 @@
 ﻿namespace DartAppClean.Domain.Entities.GameEntites
 {
     public class Game : BaseAuditableEntity
-    {    
+    {
         public GameTypesEnum GameTypes { get; set; }
         public X01TypeEnum? X01TypeEnum { get; set; }
         public CricketTypeEnum CricketTypeEnum { get; set; }
@@ -11,29 +11,41 @@
 
         public void AssignTeams(IList<string> players)
         {
-
-            if (players.Count % 2 != 0)
-                throw new Exception("Number of players must be even.");
-
             int teamNumber = 1;
-
-            for (int i = 0; i < players.Count; i += 2)
+            if (players.Count >= 4)
             {
-                var team = new Team
+                for (int i = 0; i < players.Count; i += 2)
                 {
-                    Game = this,
-                    GameId = this.Id, // EF will override if needed
-                    TeamNumber = teamNumber++
-                };
+                    var team = new Team
+                    {
+                        Game = this,
+                        GameId = this.Id,
+                        TeamNumber = teamNumber++
+                    };
 
-                team.AddPlayer(players[i]);
-                team.AddPlayer(players[i + 1]);
+                    team.AddPlayer(players[i]);
+                    team.AddPlayer(players[i + 1]);
 
-                Teams!.Add(team);
+                    Teams!.Add(team);
+                }
             }
+            else
+            {
+                for (int i = 0; i < players.Count; i++)
+                {
+                    var team = new Team
+                    {
+                        Game = this,
+                        GameId = this.Id,
+                        TeamNumber = teamNumber++
+                    };
+                    team.AddPlayer(players[i]);
+                    Teams!.Add(team);
+                }
+
+            }
+
         }
 
+
     }
-
-
-}
