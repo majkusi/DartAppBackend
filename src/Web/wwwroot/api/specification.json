@@ -36,12 +36,42 @@
               }
             }
           }
-        },
-        "security": [
+        }
+      }
+    },
+    "/api/Match/{id}": {
+      "get": {
+        "tags": [
+          "Match"
+        ],
+        "operationId": "GetMatchById",
+        "parameters": [
           {
-            "JWT": []
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchVm"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": ""
+          }
+        }
       }
     },
     "/api/Round": {
@@ -56,44 +86,6 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateRoundCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      }
-    },
-    "/api/Team": {
-      "post": {
-        "tags": [
-          "Team"
-        ],
-        "operationId": "CreateTeam",
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTeamCommand"
               }
             }
           },
@@ -904,6 +896,15 @@
                 "$ref": "#/components/schemas/X01TypeEnum"
               }
             ]
+          },
+          "playersName": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "teamsMode": {
+            "type": "boolean"
           }
         }
       },
@@ -935,6 +936,308 @@
           3
         ]
       },
+      "MatchVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "match": {
+            "$ref": "#/components/schemas/MatchDto"
+          },
+          "rounds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoundDto"
+            }
+          },
+          "statusOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LookupDto"
+            }
+          }
+        }
+      },
+      "MatchDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "x01TypeEnum": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/X01TypeEnum"
+              }
+            ]
+          },
+          "cricketTypeEnum": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CricketTypeEnum"
+              }
+            ]
+          },
+          "teams": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Team"
+            }
+          },
+          "rounds": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Round"
+            }
+          }
+        }
+      },
+      "CricketTypeEnum": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "CRICKET200",
+          "CRICKETTEAM400"
+        ],
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "Team": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAuditableEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "gameId": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "game": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Game"
+                  }
+                ]
+              },
+              "teamNumber": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "score": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "players": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/TeamPlayer"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "Game": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAuditableEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "gameTypes": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GameTypesEnum"
+                  }
+                ]
+              },
+              "x01TypeEnum": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/X01TypeEnum"
+                  }
+                ]
+              },
+              "cricketTypeEnum": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/CricketTypeEnum"
+                  }
+                ]
+              },
+              "gameStartTime": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "teams": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              },
+              "rounds": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/Round"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "Round": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAuditableEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "gameId": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "playerId": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "game": {
+                "$ref": "#/components/schemas/Game"
+              },
+              "roundNumber": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "startedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "points": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "BaseAuditableEntity": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseEntity"
+          },
+          {
+            "type": "object",
+            "x-abstract": true,
+            "additionalProperties": false,
+            "properties": {
+              "created": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "createdBy": {
+                "type": "string",
+                "nullable": true
+              },
+              "lastModified": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "lastModifiedBy": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "BaseEntity": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "domainEvents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseEvent"
+            }
+          }
+        }
+      },
+      "BaseEvent": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false
+      },
+      "TeamPlayer": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teamId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "team": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Team"
+              }
+            ]
+          },
+          "playerUsername": {
+            "type": "string"
+          },
+          "individualScore": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "RoundDto": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "LookupDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "CreateRoundCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -954,22 +1257,6 @@
           "playerId": {
             "type": "integer",
             "format": "int32"
-          }
-        }
-      },
-      "CreateTeamCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "gameId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "playersName": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           }
         }
       },
@@ -1107,20 +1394,6 @@
             "items": {
               "$ref": "#/components/schemas/TodoListDto"
             }
-          }
-        }
-      },
-      "LookupDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
           }
         }
       },
