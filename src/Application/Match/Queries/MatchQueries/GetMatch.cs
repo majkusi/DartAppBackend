@@ -1,6 +1,6 @@
 ﻿using DartAppClean.Application.Common.Interfaces;
 
-namespace DartAppClean.Application.Match.Queries;
+namespace DartAppClean.Application.Match.Queries.MatchQueries;
 
 public record GetMatchByIdQuery(int Id) : IRequest<MatchVm>;
 

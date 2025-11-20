@@ -1,7 +1,7 @@
 ﻿using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.Enums;
 
-namespace DartAppClean.Application.Match.Queries;
+namespace DartAppClean.Application.Match.Queries.MatchQueries;
 public class MatchDto
 {
     public int Id { get; init; }

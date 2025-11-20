@@ -1,6 +1,6 @@
 ﻿
 using DartAppClean.Application.Match.Commands.CreateMatch;
-using DartAppClean.Application.Match.Queries;
+using DartAppClean.Application.Match.Queries.MatchQueries;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DartAppClean.Web.Endpoints;

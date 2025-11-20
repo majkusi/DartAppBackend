@@ -1,6 +1,6 @@
 ﻿using DartAppClean.Application.Common.Models;
 
-namespace DartAppClean.Application.Match.Queries;
+namespace DartAppClean.Application.Match.Queries.MatchQueries;
 public class MatchVm
 {
     public MatchDto Match { get; init; } = default!;
