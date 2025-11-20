@@ -11,6 +11,7 @@ public class Match : EndpointGroupBase
     {
         groupBuilder.MapPost(CreateMatch);
         groupBuilder.MapGet(GetMatchById, "{id}");
+
     }
 
 
@@ -25,4 +26,6 @@ public class Match : EndpointGroupBase
         var match = await sender.Send(new GetMatchByIdQuery(id));
         return TypedResults.Ok(match);
     }
+
+
 }
