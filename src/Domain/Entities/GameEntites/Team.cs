@@ -9,14 +9,15 @@
 
         public ICollection<TeamPlayer> Players { get; set; } = new List<TeamPlayer>();
 
-        public void AddPlayer(string username)
+        public void AddPlayer(string username, int score)
         {
             if (string.IsNullOrWhiteSpace(username))
                 throw new Exception("Player username cannot be empty.");
 
             Players.Add(new TeamPlayer
             {
-                PlayerUsername = username
+                PlayerUsername = username,
+                IndividualScore = score,
             });
         }
 
