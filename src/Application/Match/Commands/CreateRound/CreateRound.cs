@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DartAppClean.Application.Common.Interfaces;
+﻿using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.Events;
 namespace DartAppClean.Application.Match.Commands.CreateRound;
@@ -14,10 +9,10 @@ public record CreateRoundCommand : IRequest<int>
     public int GameId { get; init; }
     public int RoundNumber { get; init; }
     public int Points { get; init; }
-    public int PlayerId { get; init; }
+    public int PlayerUsername { get; init; }
 }
 
-public class CreateRound : IRequestHandler<CreateRoundCommand,int>
+public class CreateRound : IRequestHandler<CreateRoundCommand, int>
 {
     private readonly IApplicationDbContext _context;
 
@@ -33,12 +28,12 @@ public class CreateRound : IRequestHandler<CreateRoundCommand,int>
             GameId = request.GameId,
             RoundNumber = request.RoundNumber,
             Points = request.Points,
-            PlayerId = request.PlayerId
+            PlayerId = request.PlayerUsername
         };
         entity.AddDomainEvent(new RoundCreatedEvent(entity));
         _context.Round.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
-        return entity.Id;
+        return entity.RoundNumber;
     }
 
 }

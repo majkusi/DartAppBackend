@@ -940,6 +940,10 @@
           },
           "teamsMode": {
             "type": "boolean"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -1143,6 +1147,9 @@
                 "type": "integer",
                 "format": "int32"
               },
+              "playerUsername": {
+                "type": "string"
+              },
               "game": {
                 "$ref": "#/components/schemas/Game"
               },
@@ -1259,7 +1266,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "playerId": {
+          "playerUsername": {
             "type": "integer",
             "format": "int32"
           }

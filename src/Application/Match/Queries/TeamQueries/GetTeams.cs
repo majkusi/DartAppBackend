@@ -28,5 +28,4 @@ public class GetTeamsByMatchIdQueryHandler : IRequestHandler<GetTeamsByMatchIdQu
             Teams = teamsDto ?? new List<TeamsDto>()
         };
     }
-
 }
