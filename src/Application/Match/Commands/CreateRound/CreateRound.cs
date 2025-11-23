@@ -3,7 +3,6 @@ using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.Events;
 namespace DartAppClean.Application.Match.Commands.CreateRound;
 
-
 public record CreateRoundCommand : IRequest<int>
 {
     public int GameId { get; init; }
