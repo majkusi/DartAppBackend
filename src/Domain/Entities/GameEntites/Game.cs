@@ -23,11 +23,9 @@
                         TeamNumber = teamNumber++,
                         Score = score
                     };
-
-                    team.AddPlayer(players[i], score);
-                    team.AddPlayer(players[i + 1], score);
-
                     Teams!.Add(team);
+                    team.AddPlayer(players[i], score, team.GameId);
+                    team.AddPlayer(players[i + 1], score, team.GameId);
                 }
             }
             else
@@ -40,8 +38,9 @@
                         GameId = this.Id,
                         TeamNumber = teamNumber++
                     };
-                    team.AddPlayer(players[i], score);
+
                     Teams!.Add(team);
+                    team.AddPlayer(players[i], score, team.GameId);
                 }
 
             }

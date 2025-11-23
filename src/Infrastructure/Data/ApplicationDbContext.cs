@@ -5,7 +5,6 @@ using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace DartAppClean.Infrastructure.Data;
 
@@ -20,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     public DbSet<Game> Game => Set<Game>();
     public DbSet<Team> Team => Set<Team>();
     public DbSet<Round> Round => Set<Round>();
+    public DbSet<TeamPlayer> TeamPlayer => Set<TeamPlayer>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -54,13 +54,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
         builder.Entity<TeamPlayer>(e =>
         {
             e.ToTable("TeamPlayers", "game");
-            e.HasKey(tp => tp.Id);          
+            e.HasKey(tp => tp.Id);
         });
 
         builder.Entity<Round>(e =>
         {
             e.ToTable("Rounds", "game");
             e.HasKey(r => r.Id);
-        });   
+        });
     }
 }

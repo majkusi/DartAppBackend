@@ -104,12 +104,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/api/Team/{id}": {
@@ -1229,9 +1224,21 @@
             "type": "integer",
             "format": "int32"
           },
+          "gameId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "teamId": {
             "type": "integer",
             "format": "int32"
+          },
+          "game": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Game"
+              }
+            ]
           },
           "team": {
             "nullable": true,
@@ -1267,8 +1274,7 @@
             "format": "int32"
           },
           "playerUsername": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string"
           }
         }
       },

@@ -9,7 +9,8 @@ public record CreateRoundCommand : IRequest<int>
     public int GameId { get; init; }
     public int RoundNumber { get; init; }
     public int Points { get; init; }
-    public int PlayerUsername { get; init; }
+    public string PlayerUsername { get; init; } = "";
+
 }
 
 public class CreateRound : IRequestHandler<CreateRoundCommand, int>
@@ -28,10 +29,20 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
             GameId = request.GameId,
             RoundNumber = request.RoundNumber,
             Points = request.Points,
-            PlayerId = request.PlayerUsername
+            PlayerUsername = request.PlayerUsername
         };
         entity.AddDomainEvent(new RoundCreatedEvent(entity));
         _context.Round.Add(entity);
+        var teamPlayer = _context.TeamPlayer
+            .FirstOrDefault(tp =>
+             tp.GameId == request.GameId &&
+             tp.PlayerUsername == request.PlayerUsername
+            );
+        if (teamPlayer != null)
+        {
+            teamPlayer.ScorePoints(request.Points);
+        }
+
         await _context.SaveChangesAsync(cancellationToken);
         return entity.RoundNumber;
     }

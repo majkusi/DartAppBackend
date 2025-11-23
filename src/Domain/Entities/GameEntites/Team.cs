@@ -9,7 +9,7 @@
 
         public ICollection<TeamPlayer> Players { get; set; } = new List<TeamPlayer>();
 
-        public void AddPlayer(string username, int score)
+        public void AddPlayer(string username, int score, int gameId)
         {
             if (string.IsNullOrWhiteSpace(username))
                 throw new Exception("Player username cannot be empty.");
@@ -18,6 +18,8 @@
             {
                 PlayerUsername = username,
                 IndividualScore = score,
+                Team = this,
+                Game = this.Game,
             });
         }
 

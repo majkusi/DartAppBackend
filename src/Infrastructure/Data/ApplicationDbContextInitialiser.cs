@@ -82,10 +82,20 @@ public class ApplicationDbContextInitialiser
             await _userManager.CreateAsync(administrator, "Administrator1!");
             if (!string.IsNullOrWhiteSpace(administratorRole.Name))
             {
-                await _userManager.AddToRolesAsync(administrator, new [] { administratorRole.Name });
+                await _userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
             }
         }
+        var user1 = new ApplicationUser { UserName = "majkusi", Email = "majkusi@localhost", EmailConfirmed = true };
+        var user2 = new ApplicationUser { UserName = "test1", Email = "majkusi@localhost", EmailConfirmed = true };
+        var user3 = new ApplicationUser { UserName = "test2", Email = "majkusi@localhost", EmailConfirmed = true };
+        var user4 = new ApplicationUser { UserName = "test3", Email = "majkusi@localhost", EmailConfirmed = true };
+        var user5 = new ApplicationUser { UserName = "test4", Email = "majkusi@localhost", EmailConfirmed = true };
 
+        await _userManager.CreateAsync(user1, "Strongpass1!");
+        await _userManager.CreateAsync(user2, "Strongpass1!");
+        await _userManager.CreateAsync(user3, "Strongpass1!");
+        await _userManager.CreateAsync(user4, "Strongpass1!");
+        await _userManager.CreateAsync(user5, "Strongpass1!");
         // Default data
         // Seed, if necessary
         if (!_context.TodoLists.Any())
