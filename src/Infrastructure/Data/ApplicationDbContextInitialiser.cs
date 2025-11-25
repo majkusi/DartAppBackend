@@ -96,6 +96,18 @@ public class ApplicationDbContextInitialiser
         await _userManager.CreateAsync(user3, "Strongpass1!");
         await _userManager.CreateAsync(user4, "Strongpass1!");
         await _userManager.CreateAsync(user5, "Strongpass1!");
+
+        var player1 = new ApplicationUser { UserName = "Player 1", Email = "majkusi@localhost", EmailConfirmed = true };
+        var player2 = new ApplicationUser { UserName = "Player 2", Email = "majkusi@localhost", EmailConfirmed = true };
+        var player3 = new ApplicationUser { UserName = "Player 3", Email = "majkusi@localhost", EmailConfirmed = true };
+        var player4 = new ApplicationUser { UserName = "Player 4", Email = "majkusi@localhost", EmailConfirmed = true };
+        var player5 = new ApplicationUser { UserName = "Player 5", Email = "majkusi@localhost", EmailConfirmed = true };
+
+        await _userManager.CreateAsync(player1, "Strongpass1!");
+        await _userManager.CreateAsync(player2, "Strongpass1!");
+        await _userManager.CreateAsync(player3, "Strongpass1!");
+        await _userManager.CreateAsync(player4, "Strongpass1!");
+        await _userManager.CreateAsync(player5, "Strongpass1!");
         // Default data
         // Seed, if necessary
         if (!_context.TodoLists.Any())

@@ -9,5 +9,6 @@
         public int RoundNumber { get; set; }
         public DateTime StartedAt { get; set; } = DateTime.UtcNow;
         public int Points { get; set; }
+
     }
 }

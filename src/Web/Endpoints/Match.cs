@@ -1,5 +1,6 @@
 ﻿
 using DartAppClean.Application.Match.Commands.CreateMatch;
+using DartAppClean.Application.Match.Queries.GetMatchState;
 using DartAppClean.Application.Match.Queries.MatchQueries;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -11,7 +12,7 @@ public class Match : EndpointGroupBase
     {
         groupBuilder.MapPost(CreateMatch);
         groupBuilder.MapGet(GetMatchById, "{id}");
-
+        groupBuilder.MapGet(GetMatchState, "/matchstate/{id}");
     }
 
 
@@ -27,5 +28,10 @@ public class Match : EndpointGroupBase
         return TypedResults.Ok(match);
     }
 
+    public async Task<Results<Ok<GetMatchStateResponse>, NotFound>> GetMatchState(int id, string currentPlayer, ISender sender)
+    {
+        var matchState = await sender.Send(new GetMatchStateCommand(id, currentPlayer));
+        return TypedResults.Ok(matchState);
+    }
 
 }

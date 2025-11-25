@@ -6,6 +6,8 @@ builder.AddKeyVaultIfConfigured();
 builder.AddApplicationServices();
 builder.AddInfrastructureServices();
 builder.AddWebServices();
+
+builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
@@ -14,6 +16,7 @@ builder.Services.AddCors(options =>
             .AllowCredentials()
             .SetIsOriginAllowed((host) => true)
             .AllowAnyHeader());
+
 });
 var app = builder.Build();
 
