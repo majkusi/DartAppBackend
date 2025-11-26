@@ -1,4 +1,5 @@
 ﻿
+using DartAppClean.Application.Hubs.MatchHubs;
 using DartAppClean.Application.Match.Commands.CreateRound;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -9,6 +10,7 @@ public class Round : EndpointGroupBase
     public override void Map(RouteGroupBuilder groupBuilder)
     {
         groupBuilder.MapPost(CreateRound);
+        groupBuilder.MapHub<MatchStateNotificationHub>("/{id}/matchState");
     }
 
     public async Task<Created<int>> CreateRound(ISender sender, CreateRoundCommand command, CancellationToken cancellationToken)
@@ -16,4 +18,5 @@ public class Round : EndpointGroupBase
         var id = await sender.Send(command);
         return TypedResults.Created($"/{nameof(Match)}/{id}", id);
     }
+
 }

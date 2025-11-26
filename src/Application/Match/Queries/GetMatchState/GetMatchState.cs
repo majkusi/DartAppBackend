@@ -48,9 +48,6 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
             ? turnOrder[(currentPlayer + 1) % turnOrder.Count]
             : request.CurrentPlayer;
 
-
-
-
         return new GetMatchStateResponse(
             request.GameId,
             turnOrder.ToArray(),
