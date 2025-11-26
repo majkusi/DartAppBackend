@@ -3,7 +3,7 @@ using DartAppClean.Application.Match.Queries.TeamQueries;
 
 namespace DartAppClean.Application.Match.Queries.GetMatchState;
 
-public record GetMatchStateCommand(int GameId, string PlayerUsername) : IRequest<GetMatchStateResponse>;
+public record GetMatchStateCommand(int GameId, string CurrentPlayer) : IRequest<GetMatchStateResponse>;
 public record GetMatchStateResponse(
     int GameId,
     string[] TurnOrder,
@@ -41,8 +41,15 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
             }
         }
 
-        var currentPlayer = turnOrder.IndexOf(request.PlayerUsername);
-        var nextPlayer = turnOrder[(currentPlayer + 1) % turnOrder.Count];
+        var currentPlayer = turnOrder.IndexOf(request.CurrentPlayer);
+
+        var nextPlayer = request.CurrentPlayer != null &&
+                         turnOrder.Contains(request.CurrentPlayer)
+            ? turnOrder[(currentPlayer + 1) % turnOrder.Count]
+            : request.CurrentPlayer;
+
+
+
 
         return new GetMatchStateResponse(
             request.GameId,
@@ -51,5 +58,4 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
             teams.ToArray()
         );
     }
-
 }
