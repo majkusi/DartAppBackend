@@ -1,3 +1,4 @@
+using DartAppClean.Application.Hubs.MatchHubs;
 using DartAppClean.Infrastructure.Data;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,16 +9,18 @@ builder.AddInfrastructureServices();
 builder.AddWebServices();
 
 builder.Services.AddSignalR();
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("CorsPolicy",
-        builder => builder
-            .AllowAnyMethod()
-            .AllowCredentials()
-            .SetIsOriginAllowed((host) => true)
-            .AllowAnyHeader());
-
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,7 +50,7 @@ app.UseExceptionHandler(options => { });
 app.Map("/", () => Results.Redirect("/api"));
 
 app.MapEndpoints();
-
+app.MapHub<MatchStateNotificationHub>("/hubs/match");
 app.Run();
 
 public partial class Program { }

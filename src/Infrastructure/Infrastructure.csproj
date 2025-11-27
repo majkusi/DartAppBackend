@@ -3,6 +3,7 @@
   <PropertyGroup>
     <RootNamespace>DartAppClean.Infrastructure</RootNamespace>
     <AssemblyName>DartAppClean.Infrastructure</AssemblyName>
+    <UserSecretsId>10f4767f-e477-4e25-bd80-6a23c19c1227</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
