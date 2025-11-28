@@ -8,7 +8,7 @@ public interface IApplicationDbContext
     DbSet<TodoList> TodoLists { get; }
 
     DbSet<TodoItem> TodoItems { get; }
-
+    
     DbSet<Game> Game { get; }
     DbSet<Team> Team { get; }
     DbSet<Round> Round { get; }

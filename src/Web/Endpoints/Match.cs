@@ -12,7 +12,7 @@ public class Match : EndpointGroupBase
     {
         groupBuilder.MapPost(CreateMatch);
         groupBuilder.MapGet(GetMatchById, "{id}");
- 
+        groupBuilder.MapGet(GetMatchState, "/matchstate/{id}");
     }
 
 
@@ -28,6 +28,10 @@ public class Match : EndpointGroupBase
         return TypedResults.Ok(match);
     }
 
-
+    public async Task<Results<Ok<GetMatchStateResponse>, NotFound>> GetMatchState(int id,  ISender sender)
+    {
+        var matchState = await sender.Send(new GetMatchStateCommand(id));
+        return TypedResults.Ok(matchState);
+    }
 
 }
