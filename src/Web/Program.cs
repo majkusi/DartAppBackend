@@ -50,7 +50,7 @@ app.UseExceptionHandler(options => { });
 app.Map("/", () => Results.Redirect("/api"));
 
 app.MapEndpoints();
-app.MapHub<MatchStateNotificationHub>("/hubs/match");
+app.MapHub<MatchStateNotificationHub>("/api/hubs/match");
 app.Run();
 
 public partial class Program { }
