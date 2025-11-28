@@ -1153,12 +1153,6 @@
               },
               "currentPlayer": {
                 "type": "string"
-              },
-              "matchFinished": {
-                "type": "boolean"
-              },
-              "winnerPlayer": {
-                "type": "string"
               }
             }
           }
@@ -1298,7 +1292,7 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "matchId": {
+          "gameId": {
             "type": "integer",
             "format": "int32"
           },
@@ -1360,7 +1354,7 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "matchId": {
+          "gameId": {
             "type": "integer",
             "format": "int32"
           },

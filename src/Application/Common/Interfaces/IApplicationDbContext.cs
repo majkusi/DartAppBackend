@@ -9,7 +9,7 @@ public interface IApplicationDbContext
 
     DbSet<TodoItem> TodoItems { get; }
     
-    DbSet<Domain.Entities.MatchEntites.Match> Match { get; }
+    DbSet<Game> Game { get; }
     DbSet<Team> Team { get; }
     DbSet<Round> Round { get; }
     DbSet<TeamPlayer> TeamPlayer { get; }

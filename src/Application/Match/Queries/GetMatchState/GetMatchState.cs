@@ -1,9 +1,15 @@
-﻿using DartAppClean.Application.Common.Interfaces;
+﻿
+using System.Linq;
+using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Application.Match.Queries.TeamQueries;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace DartAppClean.Application.Match.Queries.GetMatchState;
 
-public record GetMatchStateCommand(int MatchId) : IRequest<GetMatchStateResponse>;
+public record GetMatchStateCommand(int GameId) : IRequest<GetMatchStateResponse>;
 
 public record GetMatchStateResponse(
     int MatchId,
@@ -28,7 +34,7 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
     public async Task<GetMatchStateResponse> Handle(GetMatchStateCommand request, CancellationToken cancellationToken)
     {
         var teams = await _context.Team
-            .Where(t => t.MatchId == request.MatchId)
+            .Where(t => t.GameId == request.GameId)
             .AsNoTracking()
             .ProjectTo<TeamsDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
@@ -40,30 +46,28 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
                 .Where(username => username != null))
             .ToList();
 
-        var Match = await _context.Match
+        var game = await _context.Game
             .AsNoTracking()
-            .FirstOrDefaultAsync(g => g.Id == request.MatchId, cancellationToken);
+            .FirstOrDefaultAsync(g => g.Id == request.GameId, cancellationToken);
 
-        var currentPlayer = Match?.CurrentPlayer;
-        var finished = Match != null ? Match.MatchFinished : false;
-        string? nextPlayer = null;
+        var persistedCurrent = game?.CurrentPlayer;
 
-        if (!string.IsNullOrWhiteSpace(currentPlayer) && turnOrder.Contains(currentPlayer))
+        string? effectiveCurrentPlayer = null;
+
+        if (!string.IsNullOrWhiteSpace(persistedCurrent) && turnOrder.Contains(persistedCurrent))
         {
-            nextPlayer = currentPlayer;
+            effectiveCurrentPlayer = persistedCurrent;
         }
         else
         {
-            nextPlayer = turnOrder.FirstOrDefault();
+            effectiveCurrentPlayer = turnOrder.FirstOrDefault(); 
         }
 
         return new GetMatchStateResponse(
-            request.MatchId,
+            request.GameId,
             turnOrder.Cast<string>().ToArray(),
-            nextPlayer,
-            teams.ToArray(),
-            finished,
-            Match?.WinnerPlayer
+            effectiveCurrentPlayer,
+            teams.ToArray()
         );
     }
 }

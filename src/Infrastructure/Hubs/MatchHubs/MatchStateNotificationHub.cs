@@ -1,4 +1,6 @@
-﻿using DartAppClean.Application.Match.Queries.GetMatchState;
+﻿
+using DartAppClean.Application.Common.Interfaces;
+using DartAppClean.Application.Match.Queries.GetMatchState;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
@@ -16,14 +18,16 @@ public class MatchStateNotificationHub : Hub
         _logger = logger;
     }
 
-    public async Task JoinGame(int MatchId)
+
+    public async Task JoinGame(int gameId)
     {
-        var groupName = $"Match-{MatchId}";
+        var groupName = $"game-{gameId}";
         await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
         _logger.LogInformation("Player joined {Group}", groupName);
 
-        var matchState = await _sender.Send(new GetMatchStateCommand(MatchId));
+        var matchState = await _sender.Send(new GetMatchStateCommand(gameId));
 
-        await Clients.Caller.SendAsync("MatchStateUpdated", matchState);
+        await Clients.Caller.SendAsync("GameStateUpdated", matchState);
     }
+
 }
