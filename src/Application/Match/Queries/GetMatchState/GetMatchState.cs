@@ -1,16 +1,9 @@
-﻿
-using System.Linq;
-using DartAppClean.Application.Common.Interfaces;
+﻿using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Application.Match.Queries.TeamQueries;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace DartAppClean.Application.Match.Queries.GetMatchState;
 
-public record GetMatchStateCommand(int GameId) : IRequest<GetMatchStateResponse>;
-
+public record GetMatchStateCommand(int GameId, string CurrentPlayer) : IRequest<GetMatchStateResponse>;
 public record GetMatchStateResponse(
     int GameId,
     string[] TurnOrder,
@@ -31,39 +24,34 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
     public async Task<GetMatchStateResponse> Handle(GetMatchStateCommand request, CancellationToken cancellationToken)
     {
         var teams = await _context.Team
-            .Where(t => t.GameId == request.GameId)
+            .Where(g => g.GameId == request.GameId)
             .AsNoTracking()
             .ProjectTo<TeamsDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 
+        var maxPlayers = teams.Max(t => t.Players.Count());
+        var turnOrder = new List<string>();
 
-        var turnOrder = Enumerable.Range(0, teams.Max(t => t.Players.Count()))
-            .SelectMany(i => teams
-                .Select(t => t.Players.ElementAtOrDefault(i)?.PlayerUsername)
-                .Where(username => username != null))
-            .ToList();
-
-        var game = await _context.Game
-            .AsNoTracking()
-            .FirstOrDefaultAsync(g => g.Id == request.GameId, cancellationToken);
-
-        var persistedCurrent = game?.CurrentPlayer;
-
-        string? effectiveCurrentPlayer = null;
-
-        if (!string.IsNullOrWhiteSpace(persistedCurrent) && turnOrder.Contains(persistedCurrent))
+        for (int i = 0; i < maxPlayers; i++)
         {
-            effectiveCurrentPlayer = persistedCurrent;
+            foreach (var team in teams)
+            {
+                var players = team.Players.ToList();
+                turnOrder.Add(players[i].PlayerUsername);
+            }
         }
-        else
-        {
-            effectiveCurrentPlayer = turnOrder.FirstOrDefault(); 
-        }
+
+        var currentPlayer = turnOrder.IndexOf(request.CurrentPlayer);
+
+        var nextPlayer = request.CurrentPlayer != null &&
+                         turnOrder.Contains(request.CurrentPlayer)
+            ? turnOrder[(currentPlayer + 1) % turnOrder.Count]
+            : request.CurrentPlayer;
 
         return new GetMatchStateResponse(
             request.GameId,
-            turnOrder.Cast<string>().ToArray(),
-            effectiveCurrentPlayer,
+            turnOrder.ToArray(),
+            nextPlayer,
             teams.ToArray()
         );
     }

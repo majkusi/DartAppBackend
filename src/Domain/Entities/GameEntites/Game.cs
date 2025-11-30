@@ -8,7 +8,7 @@
         public DateTime GameStartTime { get; set; } = DateTime.UtcNow;
         public ICollection<Team>? Teams { get; set; } = new List<Team>();
         public ICollection<Round>? Rounds { get; set; } = new List<Round>();
-        public string CurrentPlayer { get; set; } = String.Empty;
+
         public void AssignTeams(IList<string> players, bool teamsMode, int score)
         {
             int teamNumber = 1;

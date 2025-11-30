@@ -74,41 +74,6 @@
         }
       }
     },
-    "/api/Match/matchstate/{id}": {
-      "get": {
-        "tags": [
-          "Match"
-        ],
-        "operationId": "GetMatchState",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetMatchStateResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/api/Round": {
       "post": {
         "tags": [
@@ -1155,9 +1120,6 @@
                 "items": {
                   "$ref": "#/components/schemas/Round"
                 }
-              },
-              "currentPlayer": {
-                "type": "string"
               }
             }
           }
@@ -1295,7 +1257,7 @@
           }
         }
       },
-      "GetMatchStateResponse": {
+      "CreateRoundCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1303,16 +1265,23 @@
             "type": "integer",
             "format": "int32"
           },
-          "turnOrder": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+          "roundNumber": {
+            "type": "integer",
+            "format": "int32"
           },
-          "currentPlayer": {
-            "type": "string",
-            "nullable": true
+          "points": {
+            "type": "integer",
+            "format": "int32"
           },
+          "playerUsername": {
+            "type": "string"
+          }
+        }
+      },
+      "TeamsVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
           "teams": {
             "type": "array",
             "items": {
@@ -1346,39 +1315,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TeamPlayer"
-            }
-          }
-        }
-      },
-      "CreateRoundCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "gameId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "roundNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "points": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "playerUsername": {
-            "type": "string"
-          }
-        }
-      },
-      "TeamsVm": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "teams": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TeamsDto"
             }
           }
         }
