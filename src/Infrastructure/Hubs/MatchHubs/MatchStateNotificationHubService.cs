@@ -31,7 +31,7 @@ public class MatchStateNotificationHubService : IMatchStateNotificationHub
         await _hubContext.Clients.Group(groupName).SendAsync("GameStateUpdated", matchState, cancellationToken);
     }
 
-    public Task JoinGame(int gameId, string playerUsername)
+    public Task JoinGame(int gameId)
     {
         return Task.CompletedTask;
     }
