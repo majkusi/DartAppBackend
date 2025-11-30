@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DartAppClean.Domain.Entities.GameEntites;
+using DartAppClean.Domain.Entities.MatchEntites;
 
 namespace DartAppClean.Domain.Events;
 public  class TeamCreatedEvent : BaseEvent

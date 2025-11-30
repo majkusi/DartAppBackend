@@ -32,7 +32,7 @@ Authorization: Bearer {{BearerToken}}
 Content-Type: application/json
 
 {
-  "gameType": 0
+  "MatchType": 0
 }
 
 ###
@@ -43,7 +43,7 @@ Authorization: Bearer {{BearerToken}}
 Content-Type: application/json
 
 {
-  "gameId": 1,
+  "MatchId": 1,
   "playersName": [
     "PlayerOne",
     "PlayerTwo"
