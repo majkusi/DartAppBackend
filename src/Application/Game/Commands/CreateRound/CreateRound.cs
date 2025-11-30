@@ -39,10 +39,6 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
         var teamPlayer = _context.TeamPlayer
             .FirstOrDefault(tp => tp.GameId == request.GameId && tp.PlayerUsername == request.PlayerUsername);
 
-        if (teamPlayer != null)
-        {
-            teamPlayer.ScorePoints(request.Points);
-        }
 
 
         var teams = await _context.Team
@@ -64,7 +60,14 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
 
         var game = await _context.Game.FirstAsync(g => g.Id == request.GameId, cancellationToken);
         game.CurrentPlayer = nextPlayer;
-
+        if (teamPlayer != null)
+        {
+            teamPlayer.ScorePoints(request.Points);
+            if (game != null && teamPlayer.Winner == true)
+            {
+                game.FinishMatch(request.PlayerUsername);
+            }
+        }
         await _context.SaveChangesAsync(cancellationToken);
 
         await _notificationHub.SendGameStateUpdate(request.GameId, cancellationToken);

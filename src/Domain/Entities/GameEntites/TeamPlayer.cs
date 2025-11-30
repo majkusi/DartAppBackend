@@ -22,7 +22,6 @@ namespace DartAppClean.Domain.Entities.MatchEntites
             {
                 IndividualScore = 0;
                 Winner = true;
-                // Game.FinishMatch(PlayerUsername);
             }
             else if (points < IndividualScore)
             {

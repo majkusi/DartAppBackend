@@ -9,7 +9,9 @@ public record GetMatchStateResponse(
     int GameId,
     string[] TurnOrder,
     string? CurrentPlayer,
-    TeamsDto[] Teams);
+    TeamsDto[] Teams,
+    bool Finished,
+    string WinnerUsername);
 
 
 public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchStateResponse>
@@ -30,6 +32,11 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
             .AsNoTracking()
             .ProjectTo<TeamsDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
+
+
+        var teamPlayer = _context.TeamPlayer
+            .Where(g => g.GameId == request.GameId)
+            .FirstOrDefault();
 
 
         var turnOrder = Enumerable.Range(0, teams.Max(t => t.Players.Count()))
@@ -54,12 +61,16 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
         {
             effectiveCurrentPlayer = turnOrder.FirstOrDefault();
         }
+        bool winner;
+        string winnerUsername;
 
         return new GetMatchStateResponse(
             request.GameId,
             turnOrder.Cast<string>().ToArray(),
             effectiveCurrentPlayer,
-            teams.ToArray()
+            teams.ToArray(),
+            winner = (teamPlayer != null && teamPlayer.Winner == true) ? true : false,
+            winnerUsername = (teamPlayer != null && teamPlayer.Winner == true) ? teamPlayer.PlayerUsername : String.Empty
         );
     }
 }
