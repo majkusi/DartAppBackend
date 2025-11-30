@@ -1,5 +1,5 @@
 ﻿using DartAppClean.Application.Common.Interfaces;
-using DartAppClean.Domain.Entities.GameEntites;
+using DartAppClean.Domain.Entities.MatchEntites;
 using DartAppClean.Domain.Enums;
 using DartAppClean.Domain.Events;
 
@@ -7,7 +7,7 @@ namespace DartAppClean.Application.Match.Commands.CreateMatch;
 
 public record CreateMatchCommand : IRequest<int>
 {
-    public GameTypesEnum GameType { get; init; }
+    public MatchTypesEnum MatchType { get; init; }
     public X01TypeEnum? X01TypeEnum { get; init; }
     public List<string> PlayersName { get; init; } = new List<string>();
     public bool TeamsMode { get; init; }
@@ -26,16 +26,16 @@ public class CreateMatch : IRequestHandler<CreateMatchCommand, int>
 
     public async Task<int> Handle(CreateMatchCommand request, CancellationToken cancellationToken)
     {
-        var gameEntity = new Game
+        var MatchEntity = new Domain.Entities.MatchEntites.Match
         {
-            GameTypes = request.GameType,
+            MatchTypes = request.MatchType,
             X01TypeEnum = request.X01TypeEnum ?? null
         };
-        gameEntity.AssignTeams(request.PlayersName, request.TeamsMode, request.Score);
-        gameEntity.AddDomainEvent(new GameCreatedEvent(gameEntity));
-        _context.Game.Add(gameEntity);
+        MatchEntity.AssignTeams(request.PlayersName, request.TeamsMode, request.Score);
+        MatchEntity.AddDomainEvent(new MatchCreatedEvent(MatchEntity));
+        _context.Match.Add(MatchEntity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return gameEntity.Id;
+        return MatchEntity.Id;
     }
 }

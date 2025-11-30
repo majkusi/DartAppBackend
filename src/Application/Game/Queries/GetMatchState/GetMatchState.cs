@@ -12,10 +12,13 @@ namespace DartAppClean.Application.Match.Queries.GetMatchState;
 public record GetMatchStateCommand(int GameId) : IRequest<GetMatchStateResponse>;
 
 public record GetMatchStateResponse(
-    int GameId,
+    int MatchId,
     string[] TurnOrder,
     string? CurrentPlayer,
-    TeamsDto[] Teams);
+    TeamsDto[] Teams,
+    bool MatchFinished,
+    string? WinnerUsername);
+
 
 public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchStateResponse>
 {

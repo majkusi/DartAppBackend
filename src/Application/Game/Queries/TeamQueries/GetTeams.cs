@@ -18,7 +18,7 @@ public class GetTeamsByMatchIdQueryHandler : IRequestHandler<GetTeamsByMatchIdQu
     public async Task<TeamsVm> Handle(GetTeamsByMatchIdQuery request, CancellationToken token)
     {
         var teamsDto = await _context.Team
-            .Where(team => team.GameId == request.Id)
+            .Where(team => team.MatchId == request.Id)
             .AsNoTracking()
             .ProjectTo<TeamsDto>(_mapper.ConfigurationProvider)
             .ToListAsync(token);

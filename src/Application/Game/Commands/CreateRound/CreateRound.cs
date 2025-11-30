@@ -6,7 +6,7 @@ namespace DartAppClean.Application.Match.Commands.CreateRound;
 
 public record CreateRoundCommand : IRequest<int>
 {
-    public int GameId { get; init; }
+    public int MatchId { get; init; }
     public int RoundNumber { get; init; }
     public int Points { get; init; }
     public string PlayerUsername { get; init; } = "";
@@ -28,7 +28,7 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
     {
         var entity = new Round
         {
-            GameId = request.GameId,
+            MatchId = request.MatchId,
             RoundNumber = request.RoundNumber,
             Points = request.Points,
             PlayerUsername = request.PlayerUsername
