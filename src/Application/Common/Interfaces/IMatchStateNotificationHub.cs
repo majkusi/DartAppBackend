@@ -1,10 +1,5 @@
-﻿
-
-namespace DartAppClean.Application.Common.Interfaces;
-
-public interface IMatchStateNotificationHub
+﻿public interface IMatchStateNotificationHub
 {
-    public async Task JoinGame(int gameId) { }
-    public async Task SendGameStateUpdate(int gameId, CancellationToken cancellationToken) { }
-
+    Task JoinGame(int MatchId);
+    Task SendMatchStateUpdate(int MatchId, CancellationToken cancellationToken);
 }

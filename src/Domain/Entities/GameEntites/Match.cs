@@ -1,14 +1,21 @@
-﻿namespace DartAppClean.Domain.Entities.GameEntites
+﻿namespace DartAppClean.Domain.Entities.MatchEntites
 {
-    public class Game : BaseAuditableEntity
+    public class Match : BaseAuditableEntity
     {
-        public GameTypesEnum? GameTypes { get; set; }
+        public MatchTypesEnum? MatchTypes { get; set; }
         public X01TypeEnum? X01TypeEnum { get; set; }
         public CricketTypeEnum? CricketTypeEnum { get; set; }
-        public DateTime GameStartTime { get; set; } = DateTime.UtcNow;
+        public DateTime MatchStartTime { get; set; } = DateTime.UtcNow;
         public ICollection<Team>? Teams { get; set; } = new List<Team>();
         public ICollection<Round>? Rounds { get; set; } = new List<Round>();
         public string CurrentPlayer { get; set; } = String.Empty;
+        public bool MatchFinished { get; set; } = false;
+        public string WinnerPlayer { get; set; } = String.Empty;
+        public void FinishMatch(string winnerUsername)
+        {
+            MatchFinished = true;
+            WinnerPlayer = winnerUsername;
+        }
         public void AssignTeams(IList<string> players, bool teamsMode, int score)
         {
             int teamNumber = 1;
@@ -18,14 +25,14 @@
                 {
                     var team = new Team
                     {
-                        Game = this,
-                        GameId = this.Id,
+                        Match = this,
+                        MatchId = this.Id,
                         TeamNumber = teamNumber++,
                         Score = score
                     };
                     Teams!.Add(team);
-                    team.AddPlayer(players[i], score, team.GameId);
-                    team.AddPlayer(players[i + 1], score, team.GameId);
+                    team.AddPlayer(players[i], score, team.MatchId);
+                    team.AddPlayer(players[i + 1], score, team.MatchId);
                 }
             }
             else
@@ -34,13 +41,13 @@
                 {
                     var team = new Team
                     {
-                        Game = this,
-                        GameId = this.Id,
+                        Match = this,
+                        MatchId = this.Id,
                         TeamNumber = teamNumber++
                     };
 
                     Teams!.Add(team);
-                    team.AddPlayer(players[i], score, team.GameId);
+                    team.AddPlayer(players[i], score, team.MatchId);
                 }
 
             }
