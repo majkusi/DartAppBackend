@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Domain.Entities;
-using DartAppClean.Domain.Entities.MatchEntites;
+using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +16,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     public DbSet<TodoItem> TodoItems => Set<TodoItem>();
 
-    public DbSet<Match> Match => Set<Match>();
+    public DbSet<Game> Game => Set<Game>();
     public DbSet<Team> Team => Set<Team>();
     public DbSet<Round> Round => Set<Round>();
     public DbSet<TeamPlayer> TeamPlayer => Set<TeamPlayer>();
@@ -24,25 +24,25 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        builder.Entity<Match>(e =>
+        builder.Entity<Game>(e =>
         {
-            e.ToTable("Matchs", "Match");
+            e.ToTable("Games", "game");
             e.HasKey(g => g.Id);
 
             e.HasMany(g => g.Teams)
-                .WithOne(t => t.Match)
-                .HasForeignKey(t => t.MatchId)
+                .WithOne(t => t.Game)
+                .HasForeignKey(t => t.GameId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             e.HasMany(g => g.Rounds)
-                .WithOne(r => r.Match)
-                .HasForeignKey(r => r.MatchId)
+                .WithOne(r => r.Game)
+                .HasForeignKey(r => r.GameId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
         builder.Entity<Team>(e =>
         {
-            e.ToTable("Teams", "Match");
+            e.ToTable("Teams", "game");
             e.HasKey(t => t.Id);
 
             e.HasMany(t => t.Players)
@@ -53,13 +53,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
         builder.Entity<TeamPlayer>(e =>
         {
-            e.ToTable("TeamPlayers", "Match");
+            e.ToTable("TeamPlayers", "game");
             e.HasKey(tp => tp.Id);
         });
 
         builder.Entity<Round>(e =>
         {
-            e.ToTable("Rounds", "Match");
+            e.ToTable("Rounds", "game");
             e.HasKey(r => r.Id);
         });
     }

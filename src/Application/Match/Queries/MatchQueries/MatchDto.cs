@@ -1,4 +1,4 @@
-﻿using DartAppClean.Domain.Entities.MatchEntites;
+﻿using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.Enums;
 
 namespace DartAppClean.Application.Match.Queries.MatchQueries;
@@ -14,7 +14,7 @@ public class MatchDto
     {
         public Mapping()
         {
-            CreateMap<Domain.Entities.MatchEntites.Match, MatchDto>();
+            CreateMap<Game, MatchDto>();
         }
     }
 }

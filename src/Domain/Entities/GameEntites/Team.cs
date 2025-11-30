@@ -1,15 +1,15 @@
-﻿namespace DartAppClean.Domain.Entities.MatchEntites
+﻿namespace DartAppClean.Domain.Entities.GameEntites
 {
     public class Team : BaseAuditableEntity
     {
-        public int MatchId { get; set; }
-        public required Match Match { get; set; }
+        public int GameId { get; set; }
+        public Game? Game { get; set; }
         public int TeamNumber { get; set; }
         public int Score { get; set; }
 
         public ICollection<TeamPlayer> Players { get; set; } = new List<TeamPlayer>();
 
-        public void AddPlayer(string username, int score, int MatchId)
+        public void AddPlayer(string username, int score, int gameId)
         {
             if (string.IsNullOrWhiteSpace(username))
                 throw new Exception("Player username cannot be empty.");
@@ -19,7 +19,7 @@
                 PlayerUsername = username,
                 IndividualScore = score,
                 Team = this,
-                Match = this.Match,
+                Game = this.Game,
             });
         }
 

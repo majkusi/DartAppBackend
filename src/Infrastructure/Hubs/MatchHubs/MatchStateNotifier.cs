@@ -14,7 +14,7 @@ public class MatchStateNotifier
 
     public async Task BroadcastAsync(GetMatchStateResponse matchState, CancellationToken ct)
     {
-        var groupName = $"Match-{matchState.MatchId}";
-        await _hubContext.Clients.Group(groupName).SendAsync("MatchStateUpdated", matchState, ct);
+        var groupName = $"game-{matchState.GameId}";
+        await _hubContext.Clients.Group(groupName).SendAsync("GameStateUpdated", matchState, ct);
     }
 }

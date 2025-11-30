@@ -1,5 +1,5 @@
 ﻿using DartAppClean.Domain.Entities;
-using DartAppClean.Domain.Entities.MatchEntites;
+using DartAppClean.Domain.Entities.GameEntites;
 
 namespace DartAppClean.Application.Common.Interfaces;
 
@@ -9,7 +9,7 @@ public interface IApplicationDbContext
 
     DbSet<TodoItem> TodoItems { get; }
     
-    DbSet<Domain.Entities.MatchEntites.Match> Match { get; }
+    DbSet<Game> Game { get; }
     DbSet<Team> Team { get; }
     DbSet<Round> Round { get; }
     DbSet<TeamPlayer> TeamPlayer { get; }

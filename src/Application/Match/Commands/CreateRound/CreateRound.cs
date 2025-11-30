@@ -1,11 +1,12 @@
 ﻿using DartAppClean.Application.Common.Interfaces;
-using DartAppClean.Domain.Entities.MatchEntites;
+using DartAppClean.Application.Match.Queries.GetMatchState;
+using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.Events;
 namespace DartAppClean.Application.Match.Commands.CreateRound;
 
 public record CreateRoundCommand : IRequest<int>
 {
-    public int MatchId { get; init; }
+    public int GameId { get; init; }
     public int RoundNumber { get; init; }
     public int Points { get; init; }
     public string PlayerUsername { get; init; } = "";
@@ -22,11 +23,12 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
         _context = context;
     }
 
+
     public async Task<int> Handle(CreateRoundCommand request, CancellationToken cancellationToken)
     {
         var entity = new Round
         {
-            MatchId = request.MatchId,
+            GameId = request.GameId,
             RoundNumber = request.RoundNumber,
             Points = request.Points,
             PlayerUsername = request.PlayerUsername
@@ -36,7 +38,7 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
         _context.Round.Add(entity);
 
         var teamPlayer = _context.TeamPlayer
-            .FirstOrDefault(tp => tp.MatchId == request.MatchId && tp.PlayerUsername == request.PlayerUsername);
+            .FirstOrDefault(tp => tp.GameId == request.GameId && tp.PlayerUsername == request.PlayerUsername);
 
         if (teamPlayer != null)
         {
@@ -44,10 +46,9 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
         }
 
 
-
         var teams = await _context.Team
-            .Where(t => t.MatchId == request.MatchId)
-            .Include(t => t.Players.OrderBy(p => p.Id))
+            .Where(t => t.GameId == request.GameId)
+            .Include(t => t.Players.OrderBy(p => p.Id)) 
             .ToListAsync(cancellationToken);
 
 
@@ -62,13 +63,15 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
         var currentIndex = turnOrder.IndexOf(request.PlayerUsername);
         var nextPlayer = turnOrder[(currentIndex + 1) % turnOrder.Count];
 
-        var Match = await _context.Match.FirstAsync(g => g.Id == request.MatchId, cancellationToken);
-        Match.CurrentPlayer = nextPlayer;
+        var game = await _context.Game.FirstAsync(g => g.Id == request.GameId, cancellationToken);
+        game.CurrentPlayer = nextPlayer;
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        await _notificationHub.SendMatchStateUpdate(request.MatchId, cancellationToken);
-        await _notificationHub.JoinGame(request.MatchId);
+        await _notificationHub.SendGameStateUpdate(request.GameId, cancellationToken);
+        await _notificationHub.JoinGame(request.GameId);
         return entity.RoundNumber;
     }
+
+
 }

@@ -1,4 +1,4 @@
-﻿using DartAppClean.Domain.Entities.MatchEntites;
+﻿using DartAppClean.Domain.Entities.GameEntites;
 namespace DartAppClean.Domain.Events;
 public class RoundCreatedEvent : BaseEvent
 {

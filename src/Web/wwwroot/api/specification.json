@@ -147,7 +147,7 @@
         "tags": [
           "Team"
         ],
-        "operationId": "GetTeamsByMatchId",
+        "operationId": "GetTeamsByGameId",
         "parameters": [
           {
             "name": "id",
@@ -951,8 +951,8 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "matchType": {
-            "$ref": "#/components/schemas/MatchTypesEnum"
+          "gameType": {
+            "$ref": "#/components/schemas/GameTypesEnum"
           },
           "x01TypeEnum": {
             "nullable": true,
@@ -977,7 +977,7 @@
           }
         }
       },
-      "MatchTypesEnum": {
+      "GameTypesEnum": {
         "type": "integer",
         "description": "",
         "x-enumNames": [
@@ -1075,12 +1075,17 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "matchId": {
+              "gameId": {
                 "type": "integer",
                 "format": "int32"
               },
-              "match": {
-                "$ref": "#/components/schemas/Match"
+              "game": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Game"
+                  }
+                ]
               },
               "teamNumber": {
                 "type": "integer",
@@ -1100,7 +1105,7 @@
           }
         ]
       },
-      "Match": {
+      "Game": {
         "allOf": [
           {
             "$ref": "#/components/schemas/BaseAuditableEntity"
@@ -1109,11 +1114,11 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "matchTypes": {
+              "gameTypes": {
                 "nullable": true,
                 "oneOf": [
                   {
-                    "$ref": "#/components/schemas/MatchTypesEnum"
+                    "$ref": "#/components/schemas/GameTypesEnum"
                   }
                 ]
               },
@@ -1133,7 +1138,7 @@
                   }
                 ]
               },
-              "matchStartTime": {
+              "gameStartTime": {
                 "type": "string",
                 "format": "date-time"
               },
@@ -1153,12 +1158,6 @@
               },
               "currentPlayer": {
                 "type": "string"
-              },
-              "matchFinished": {
-                "type": "boolean"
-              },
-              "winnerPlayer": {
-                "type": "string"
               }
             }
           }
@@ -1173,7 +1172,7 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "matchId": {
+              "gameId": {
                 "type": "integer",
                 "format": "int32"
               },
@@ -1184,8 +1183,8 @@
               "playerUsername": {
                 "type": "string"
               },
-              "match": {
-                "$ref": "#/components/schemas/Match"
+              "game": {
+                "$ref": "#/components/schemas/Game"
               },
               "roundNumber": {
                 "type": "integer",
@@ -1263,7 +1262,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "matchId": {
+          "gameId": {
             "type": "integer",
             "format": "int32"
           },
@@ -1271,8 +1270,13 @@
             "type": "integer",
             "format": "int32"
           },
-          "match": {
-            "$ref": "#/components/schemas/Match"
+          "game": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Game"
+              }
+            ]
           },
           "team": {
             "nullable": true,
@@ -1288,9 +1292,6 @@
           "individualScore": {
             "type": "integer",
             "format": "int32"
-          },
-          "winner": {
-            "type": "boolean"
           }
         }
       },
@@ -1298,7 +1299,7 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "matchId": {
+          "gameId": {
             "type": "integer",
             "format": "int32"
           },
@@ -1317,13 +1318,6 @@
             "items": {
               "$ref": "#/components/schemas/TeamsDto"
             }
-          },
-          "matchFinished": {
-            "type": "boolean"
-          },
-          "winnerUsername": {
-            "type": "string",
-            "nullable": true
           }
         }
       },
@@ -1339,7 +1333,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "matchId": {
+          "gameId": {
             "type": "integer",
             "format": "int32"
           },
@@ -1360,7 +1354,7 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "matchId": {
+          "gameId": {
             "type": "integer",
             "format": "int32"
           },

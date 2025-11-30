@@ -1,7 +1,7 @@
 ﻿using DartAppClean.Domain.Events;
 using Microsoft.Extensions.Logging;
 
-namespace DartAppClean.Application.Match.MatchEventHandlers;
+namespace DartAppClean.Application.Match.GameEventHandlers;
 public class RoundCreatedEventHandler : INotificationHandler<RoundCreatedEvent>
 {
     private readonly ILogger<RoundCreatedEventHandler> _logger;
