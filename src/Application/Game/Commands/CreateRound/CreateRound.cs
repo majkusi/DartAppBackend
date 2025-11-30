@@ -1,12 +1,11 @@
 ﻿using DartAppClean.Application.Common.Interfaces;
-using DartAppClean.Application.Match.Queries.GetMatchState;
-using DartAppClean.Domain.Entities.GameEntites;
+using DartAppClean.Domain.Entities.MatchEntites;
 using DartAppClean.Domain.Events;
 namespace DartAppClean.Application.Match.Commands.CreateRound;
 
 public record CreateRoundCommand : IRequest<int>
 {
-    public int MatchId { get; init; }
+    public int GameId { get; init; }
     public int RoundNumber { get; init; }
     public int Points { get; init; }
     public string PlayerUsername { get; init; } = "";
@@ -28,7 +27,7 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
     {
         var entity = new Round
         {
-            MatchId = request.MatchId,
+            GameId = request.GameId,
             RoundNumber = request.RoundNumber,
             Points = request.Points,
             PlayerUsername = request.PlayerUsername
@@ -48,7 +47,7 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
 
         var teams = await _context.Team
             .Where(t => t.GameId == request.GameId)
-            .Include(t => t.Players.OrderBy(p => p.Id)) 
+            .Include(t => t.Players.OrderBy(p => p.Id))
             .ToListAsync(cancellationToken);
 
 

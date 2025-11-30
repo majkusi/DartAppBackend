@@ -1,4 +1,6 @@
-﻿namespace DartAppClean.Domain.Entities.GameEntites
+﻿using DartAppClean.Domain.Entities.MatchEntites;
+
+namespace DartAppClean.Domain.Entities.GameEntites
 {
     public class Game : BaseAuditableEntity
     {

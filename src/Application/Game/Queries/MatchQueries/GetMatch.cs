@@ -16,7 +16,7 @@ public class GetMatchByIdQueryHandler : IRequestHandler<GetMatchByIdQuery, Match
 
     public async Task<MatchVm> Handle(GetMatchByIdQuery request, CancellationToken cancellationToken)
     {
-        var matchDto = await _context.Match
+        var matchDto = await _context.Game
             .Where(g => g.Id == request.Id)
             .AsNoTracking()
             .ProjectTo<MatchDto>(_mapper.ConfigurationProvider)

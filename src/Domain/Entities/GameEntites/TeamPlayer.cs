@@ -1,11 +1,13 @@
-﻿namespace DartAppClean.Domain.Entities.MatchEntites
+﻿using DartAppClean.Domain.Entities.GameEntites;
+
+namespace DartAppClean.Domain.Entities.MatchEntites
 {
     public class TeamPlayer
     {
         public int Id { get; private set; }
-        public int MatchId { get; set; }
+        public int GameId { get; set; }
         public int TeamId { get; private set; }
-        public required Match Match { get; set; }
+        public required Game Game { get; set; }
         public Team? Team { get; set; }
         public string PlayerUsername { get; set; } = null!;
         public int IndividualScore { get; set; }
@@ -20,7 +22,7 @@
             {
                 IndividualScore = 0;
                 Winner = true;
-                Match.FinishMatch(PlayerUsername);
+                // Game.FinishMatch(PlayerUsername);
             }
             else if (points < IndividualScore)
             {

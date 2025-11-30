@@ -1,9 +1,11 @@
-﻿namespace DartAppClean.Domain.Entities.MatchEntites
+﻿using DartAppClean.Domain.Entities.GameEntites;
+
+namespace DartAppClean.Domain.Entities.MatchEntites
 {
     public class Team : BaseAuditableEntity
     {
-        public int MatchId { get; set; }
-        public required Match Match { get; set; }
+        public int GameId { get; set; }
+        public required Game Game { get; set; }
         public int TeamNumber { get; set; }
         public int Score { get; set; }
 
@@ -19,7 +21,7 @@
                 PlayerUsername = username,
                 IndividualScore = score,
                 Team = this,
-                Match = this.Match,
+                Game = this.Game,
             });
         }
 

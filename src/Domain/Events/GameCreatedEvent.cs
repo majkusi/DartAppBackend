@@ -1,10 +1,10 @@
-﻿using DartAppClean.Domain.Entities.MatchEntites;
+﻿using DartAppClean.Domain.Entities.GameEntites;
 namespace DartAppClean.Domain.Events;
 public class MatchCreatedEvent : BaseEvent
 {
-    public MatchCreatedEvent(Match Match)
+    public MatchCreatedEvent(Game Game)
     {
-        this.Match = Match;
+        this.Game = Game;
     }
-    public Match Match { get; }
+    public Game Game { get; }
 }

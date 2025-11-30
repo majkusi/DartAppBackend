@@ -1,23 +1,15 @@
-﻿
-using System.Linq;
-using DartAppClean.Application.Common.Interfaces;
+﻿using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Application.Match.Queries.TeamQueries;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace DartAppClean.Application.Match.Queries.GetMatchState;
 
 public record GetMatchStateCommand(int GameId) : IRequest<GetMatchStateResponse>;
 
 public record GetMatchStateResponse(
-    int MatchId,
+    int GameId,
     string[] TurnOrder,
     string? CurrentPlayer,
-    TeamsDto[] Teams,
-    bool MatchFinished,
-    string? WinnerUsername);
+    TeamsDto[] Teams);
 
 
 public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchStateResponse>
@@ -60,7 +52,7 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
         }
         else
         {
-            effectiveCurrentPlayer = turnOrder.FirstOrDefault(); 
+            effectiveCurrentPlayer = turnOrder.FirstOrDefault();
         }
 
         return new GetMatchStateResponse(
