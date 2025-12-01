@@ -1,6 +1,5 @@
 ﻿using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Application.Match.Queries.TeamQueries;
-using DartAppClean.Domain.Entities.GameEntites;
 
 namespace DartAppClean.Application.Match.Queries.GetMatchState;
 
@@ -30,26 +29,21 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
     {
         var teams = await _context.Team
             .Where(t => t.GameId == request.GameId)
-            .AsNoTracking()
             .ProjectTo<TeamsDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
-
 
         var teamPlayer = _context.TeamPlayer
             .Where(g => g.GameId == request.GameId)
             .FirstOrDefault();
-
-
-
 
         var game = await _context.Game
             .AsNoTracking()
             .FirstOrDefaultAsync(g => g.Id == request.GameId, cancellationToken);
 
 
-        if (game == null) throw new Exception("Game is null!");      
+        if (game == null) throw new Exception("Game is null!");
         var turnOrder = game.TurnOrder.ToArray();
-        
+
         var persistedCurrent = game?.CurrentPlayer;
 
         string? effectiveCurrentPlayer = null;

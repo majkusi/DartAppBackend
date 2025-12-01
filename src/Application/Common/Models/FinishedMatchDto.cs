@@ -9,7 +9,7 @@ public class FinishedMatchDto
     {
         public Mapping()
         {
-            CreateMap<Domain.Entities.GameEntites.Game, FinishedMatchDto>();
+            CreateMap<Domain.Entities.GameEntites.Match, FinishedMatchDto>();
         }
     }
 }

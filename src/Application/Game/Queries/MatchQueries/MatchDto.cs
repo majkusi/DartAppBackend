@@ -14,7 +14,7 @@ public class MatchDto
     {
         public Mapping()
         {
-            CreateMap<Domain.Entities.GameEntites.Game, MatchDto>();
+            CreateMap<Domain.Entities.GameEntites.Match, MatchDto>();
         }
     }
 }

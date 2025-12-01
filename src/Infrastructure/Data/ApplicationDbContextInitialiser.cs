@@ -97,17 +97,17 @@ public class ApplicationDbContextInitialiser
         await _userManager.CreateAsync(user4, "Strongpass1!");
         await _userManager.CreateAsync(user5, "Strongpass1!");
 
-        var player1 = new ApplicationUser { UserName = "Player 1", Email = "majkusi@localhost", EmailConfirmed = true };
-        var player2 = new ApplicationUser { UserName = "Player 2", Email = "majkusi@localhost", EmailConfirmed = true };
-        var player3 = new ApplicationUser { UserName = "Player 3", Email = "majkusi@localhost", EmailConfirmed = true };
-        var player4 = new ApplicationUser { UserName = "Player 4", Email = "majkusi@localhost", EmailConfirmed = true };
-        var player5 = new ApplicationUser { UserName = "Player 5", Email = "majkusi@localhost", EmailConfirmed = true };
+        var player1 = new ApplicationUser { UserName = "Player 1", Email = "majkusi1@localhost", EmailConfirmed = true };
+        var player2 = new ApplicationUser { UserName = "Player 2", Email = "majkusi2@localhost", EmailConfirmed = true };
+        var player3 = new ApplicationUser { UserName = "Player 3", Email = "majkusi3@localhost", EmailConfirmed = true };
+        var player4 = new ApplicationUser { UserName = "Player 4", Email = "majkusi4@localhost", EmailConfirmed = true };
+        var player5 = new ApplicationUser { UserName = "Player 5", Email = "majkusi5@localhost", EmailConfirmed = true };
 
-        await _userManager.CreateAsync(player1, "Strongpass1!");
-        await _userManager.CreateAsync(player2, "Strongpass1!");
-        await _userManager.CreateAsync(player3, "Strongpass1!");
-        await _userManager.CreateAsync(player4, "Strongpass1!");
-        await _userManager.CreateAsync(player5, "Strongpass1!");
+        await _userManager.CreateAsync(player1, "Strongpass1!1");
+        await _userManager.CreateAsync(player2, "Strongpass1!2");
+        await _userManager.CreateAsync(player3, "Strongpass1!3");
+        await _userManager.CreateAsync(player4, "Strongpass1!4");
+        await _userManager.CreateAsync(player5, "Strongpass1!5");
         // Default data
         // Seed, if necessary
         if (!_context.TodoLists.Any())

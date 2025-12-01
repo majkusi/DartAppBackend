@@ -2,7 +2,7 @@
 
 namespace DartAppClean.Domain.Entities.GameEntites
 {
-    public class Game : BaseAuditableEntity
+    public class Match : BaseAuditableEntity
     {
         public GameTypesEnum? GameTypes { get; set; }
         public X01TypeEnum? X01TypeEnum { get; set; }
@@ -13,17 +13,14 @@ namespace DartAppClean.Domain.Entities.GameEntites
         public string CurrentPlayer { get; set; } = String.Empty;
         public bool GameFinished { get; set; } = false;
         public string WinnerUsername { get; set; } = String.Empty;
-        public List<string> TurnOrder { get; set;} = new List<string>();
+        public List<string> TurnOrder { get; set; } = new List<string>();
+
 
         public void FinishMatch(string winnerUsername)
         {
             GameFinished = true;
             WinnerUsername = winnerUsername;
         }
-
-
-
-
         public void AssignTeams(IList<string> players, bool teamsMode, int score)
         {
             int teamNumber = 1;
@@ -43,9 +40,19 @@ namespace DartAppClean.Domain.Entities.GameEntites
                     Teams!.Add(team);
 
                     team.AddPlayer(players[i], score, team.GameId);
+                    var player1 = team.Players.Where(p => p.PlayerUsername == players[i]).FirstOrDefault();
 
+
+                    if (player1 == null) throw new Exception("Player is null ");
+                    player1.Order = 1;
                     if (i + 1 < players.Count)
+                    {
                         team.AddPlayer(players[i + 1], score, team.GameId);
+                        var player2 = team.Players.Where(p => p.PlayerUsername == players[i + 1]).FirstOrDefault();
+                        if (player2 == null) throw new Exception("Player 2 is null");
+                        player2.Order = 2;
+                    }
+
                 }
 
                 var orderedTeams = Teams

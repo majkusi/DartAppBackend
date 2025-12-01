@@ -7,12 +7,12 @@ namespace DartAppClean.Domain.Entities.MatchEntites
         public int Id { get; private set; }
         public int GameId { get; set; }
         public int TeamId { get; private set; }
-        public required Game Game { get; set; }
+        public required Match Game { get; set; }
         public Team? Team { get; set; }
         public string PlayerUsername { get; set; } = null!;
         public int IndividualScore { get; set; }
         public bool Winner { get; set; }
-
+        public int Order { get; set; }
         public void ScorePoints(int points)
         {
             if (points < 0)

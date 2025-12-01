@@ -70,7 +70,6 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
         await _context.SaveChangesAsync(cancellationToken);
 
         await _notificationHub.SendGameStateUpdate(request.GameId, cancellationToken);
-        await _notificationHub.JoinGame(request.GameId);
         return entity.RoundNumber;
     }
 }

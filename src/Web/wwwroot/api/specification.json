@@ -1113,7 +1113,7 @@
                 "format": "int32"
               },
               "game": {
-                "$ref": "#/components/schemas/Game"
+                "$ref": "#/components/schemas/Match"
               },
               "teamNumber": {
                 "type": "integer",
@@ -1133,7 +1133,7 @@
           }
         ]
       },
-      "Game": {
+      "Match": {
         "allOf": [
           {
             "$ref": "#/components/schemas/BaseAuditableEntity"
@@ -1223,7 +1223,7 @@
                 "type": "string"
               },
               "game": {
-                "$ref": "#/components/schemas/Game"
+                "$ref": "#/components/schemas/Match"
               },
               "roundNumber": {
                 "type": "integer",
@@ -1310,7 +1310,7 @@
             "format": "int32"
           },
           "game": {
-            "$ref": "#/components/schemas/Game"
+            "$ref": "#/components/schemas/Match"
           },
           "team": {
             "nullable": true,
@@ -1329,6 +1329,10 @@
           },
           "winner": {
             "type": "boolean"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

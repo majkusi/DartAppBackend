@@ -2,9 +2,9 @@
 namespace DartAppClean.Domain.Events;
 public class MatchCreatedEvent : BaseEvent
 {
-    public MatchCreatedEvent(Game Game)
+    public MatchCreatedEvent(Match Game)
     {
         this.Game = Game;
     }
-    public Game Game { get; }
+    public Match Game { get; }
 }

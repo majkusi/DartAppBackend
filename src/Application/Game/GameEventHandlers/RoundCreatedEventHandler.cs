@@ -17,5 +17,4 @@ public class RoundCreatedEventHandler : INotificationHandler<RoundCreatedEvent>
         return Task.CompletedTask;
     }
 
-
 }

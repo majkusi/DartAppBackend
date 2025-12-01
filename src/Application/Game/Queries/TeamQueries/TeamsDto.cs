@@ -14,7 +14,11 @@ public class TeamsDto
     {
         public Mapping()
         {
-            CreateMap<Team, TeamsDto>();
+            CreateMap<Team, TeamsDto>()
+                .ForMember(
+                    dest => dest.Players,
+                    opt => opt.MapFrom(src => src.Players.OrderBy(p => p.Order))
+                );
         }
     }
 }

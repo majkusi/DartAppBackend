@@ -27,7 +27,7 @@ public class CreateMatch : IRequestHandler<CreateMatchCommand, int>
 
     public async Task<int> Handle(CreateMatchCommand request, CancellationToken cancellationToken)
     {
-        var MatchEntity = new Game
+        var MatchEntity = new Domain.Entities.GameEntites.Match
         {
             GameTypes = request.GameType,
             X01TypeEnum = request.X01TypeEnum ?? null,

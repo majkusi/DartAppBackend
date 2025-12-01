@@ -17,7 +17,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     public DbSet<TodoItem> TodoItems => Set<TodoItem>();
 
-    public DbSet<Game> Game => Set<Game>();
+    public DbSet<Match> Game => Set<Match>();
     public DbSet<Team> Team => Set<Team>();
     public DbSet<Round> Round => Set<Round>();
     public DbSet<TeamPlayer> TeamPlayer => Set<TeamPlayer>();
@@ -25,7 +25,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        builder.Entity<Game>(e =>
+        builder.Entity<Match>(e =>
         {
             e.ToTable("Matchs", "Match");
             e.HasKey(g => g.Id);
