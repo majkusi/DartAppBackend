@@ -40,7 +40,6 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
             .FirstOrDefault(tp => tp.GameId == request.GameId && tp.PlayerUsername == request.PlayerUsername);
 
 
-
         var teams = await _context.Team
             .Where(t => t.GameId == request.GameId)
             .Include(t => t.Players.OrderBy(p => p.Id))
@@ -74,6 +73,4 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
         await _notificationHub.JoinGame(request.GameId);
         return entity.RoundNumber;
     }
-
-
 }

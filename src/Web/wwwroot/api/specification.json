@@ -1172,7 +1172,6 @@
               },
               "teams": {
                 "type": "array",
-                "nullable": true,
                 "items": {
                   "$ref": "#/components/schemas/Team"
                 }
@@ -1192,6 +1191,12 @@
               },
               "winnerUsername": {
                 "type": "string"
+              },
+              "turnOrder": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }

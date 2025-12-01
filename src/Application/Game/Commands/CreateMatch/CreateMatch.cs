@@ -12,6 +12,7 @@ public record CreateMatchCommand : IRequest<int>
     public List<string> PlayersName { get; init; } = new List<string>();
     public bool TeamsMode { get; init; }
     public int Score { get; set; }
+    
 }
 
 public class CreateMatch : IRequestHandler<CreateMatchCommand, int>
@@ -29,8 +30,10 @@ public class CreateMatch : IRequestHandler<CreateMatchCommand, int>
         var MatchEntity = new Game
         {
             GameTypes = request.GameType,
-            X01TypeEnum = request.X01TypeEnum ?? null
-        };
+            X01TypeEnum = request.X01TypeEnum ?? null,
+            Teams = []
+        };        
+
         MatchEntity.AssignTeams(request.PlayersName, request.TeamsMode, request.Score);
         MatchEntity.AddDomainEvent(new MatchCreatedEvent(MatchEntity));
         _context.Game.Add(MatchEntity);

@@ -8,11 +8,12 @@ namespace DartAppClean.Domain.Entities.GameEntites
         public X01TypeEnum? X01TypeEnum { get; set; }
         public CricketTypeEnum? CricketTypeEnum { get; set; }
         public DateTime GameStartTime { get; set; } = DateTime.UtcNow;
-        public ICollection<Team>? Teams { get; set; } = new List<Team>();
+        public required ICollection<Team> Teams { get; set; } = new List<Team>();
         public ICollection<Round>? Rounds { get; set; } = new List<Round>();
         public string CurrentPlayer { get; set; } = String.Empty;
         public bool GameFinished { get; set; } = false;
         public string WinnerUsername { get; set; } = String.Empty;
+        public List<string> TurnOrder { get; set;} = new List<string>();
 
         public void FinishMatch(string winnerUsername)
         {
@@ -21,9 +22,12 @@ namespace DartAppClean.Domain.Entities.GameEntites
         }
 
 
+
+
         public void AssignTeams(IList<string> players, bool teamsMode, int score)
         {
             int teamNumber = 1;
+
             if (teamsMode)
             {
                 for (int i = 0; i < players.Count; i += 2)
@@ -35,9 +39,35 @@ namespace DartAppClean.Domain.Entities.GameEntites
                         TeamNumber = teamNumber++,
                         Score = score
                     };
+
                     Teams!.Add(team);
+
                     team.AddPlayer(players[i], score, team.GameId);
-                    team.AddPlayer(players[i + 1], score, team.GameId);
+
+                    if (i + 1 < players.Count)
+                        team.AddPlayer(players[i + 1], score, team.GameId);
+                }
+
+                var orderedTeams = Teams
+                    .OrderBy(t => t.TeamNumber)
+                    .Select(t => t.Players
+                        .OrderBy(p => players.IndexOf(p.PlayerUsername))
+                        .Select(p => p.PlayerUsername)
+                        .ToList())
+                    .ToList();
+
+                var maxPlayers = orderedTeams.Max(t => t.Count);
+                TurnOrder.Clear();
+
+                for (int i = 0; i < maxPlayers; i++)
+                {
+                    foreach (var teamPlayers in orderedTeams)
+                    {
+                        if (i < teamPlayers.Count)
+                        {
+                            TurnOrder.Add(teamPlayers[i]);
+                        }
+                    }
                 }
             }
             else
@@ -54,10 +84,10 @@ namespace DartAppClean.Domain.Entities.GameEntites
                     Teams!.Add(team);
                     team.AddPlayer(players[i], score, team.GameId);
                 }
-
+                TurnOrder = players.ToList();
             }
-
         }
+
 
 
     }
