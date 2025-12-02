@@ -54,11 +54,10 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
                 .Where(username => username is not null))
             .Cast<string>()
             .ToList();
-        var currentIndex = turnOrder.IndexOf(request.PlayerUsername);
-        var nextPlayer = turnOrder[(currentIndex + 1) % turnOrder.Count];
+
 
         var game = await _context.Game.FirstAsync(g => g.Id == request.GameId, cancellationToken);
-        game.CurrentPlayer = nextPlayer;
+        game.CurrentPlayer = request.PlayerUsername;
         if (teamPlayer != null)
         {
             teamPlayer.ScorePoints(request.Points);

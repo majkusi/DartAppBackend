@@ -44,28 +44,31 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
         if (game == null) throw new Exception("Game is null!");
         var turnOrder = game.TurnOrder.ToArray();
 
-        var persistedCurrent = game?.CurrentPlayer;
+        var currentPlayer = game?.CurrentPlayer;
 
-        string? effectiveCurrentPlayer = null;
+        var nextPlayer = string.Empty;
 
-        if (!string.IsNullOrWhiteSpace(persistedCurrent) && turnOrder.Contains(persistedCurrent))
+        if (!string.IsNullOrWhiteSpace(currentPlayer) && turnOrder.Contains(currentPlayer))
         {
-            effectiveCurrentPlayer = persistedCurrent;
+            int currentPlayerIndex = Array.IndexOf(turnOrder, currentPlayer);
+            nextPlayer = turnOrder[(currentPlayerIndex + 1) % turnOrder.Length];
         }
         else
         {
-            effectiveCurrentPlayer = turnOrder.FirstOrDefault();
+            nextPlayer = turnOrder.FirstOrDefault();
         }
-        bool winner;
-        string winnerUsername;
+
+
+        bool winner = (teamPlayer != null && teamPlayer.Winner == true) ? true : false;
+        string winnerUsername = (teamPlayer != null && teamPlayer.Winner == true) ? teamPlayer.PlayerUsername : String.Empty;
 
         return new GetMatchStateResponse(
             request.GameId,
             turnOrder,
-            effectiveCurrentPlayer,
+            nextPlayer,
             teams.ToArray(),
-            winner = (teamPlayer != null && teamPlayer.Winner == true) ? true : false,
-            winnerUsername = (teamPlayer != null && teamPlayer.Winner == true) ? teamPlayer.PlayerUsername : String.Empty
+            winner,
+            winnerUsername
         );
     }
 }
