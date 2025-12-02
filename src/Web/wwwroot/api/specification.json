@@ -1283,12 +1283,12 @@
           "domainEvents": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BaseEvent"
+              "$ref": "#/components/schemas/IBaseEvent"
             }
           }
         }
       },
-      "BaseEvent": {
+      "IBaseEvent": {
         "type": "object",
         "x-abstract": true,
         "additionalProperties": false

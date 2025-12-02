@@ -1,7 +1,7 @@
-﻿using DartAppClean.Application.TodoLists.Commands.CreateTodoList;
-using DartAppClean.Application.TodoLists.Commands.DeleteTodoList;
-using DartAppClean.Application.TodoLists.Commands.UpdateTodoList;
-using DartAppClean.Application.TodoLists.Queries.GetTodos;
+﻿using DartAppClean.Application.Disposable.TodoLists.Commands.CreateTodoList;
+using DartAppClean.Application.Disposable.TodoLists.Commands.DeleteTodoList;
+using DartAppClean.Application.Disposable.TodoLists.Commands.UpdateTodoList;
+using DartAppClean.Application.Disposable.TodoLists.Queries.GetTodos;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DartAppClean.Web.Endpoints;

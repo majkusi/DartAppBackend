@@ -1,9 +1,9 @@
 ﻿using DartAppClean.Application.Common.Models;
-using DartAppClean.Application.TodoItems.Commands.CreateTodoItem;
-using DartAppClean.Application.TodoItems.Commands.DeleteTodoItem;
-using DartAppClean.Application.TodoItems.Commands.UpdateTodoItem;
-using DartAppClean.Application.TodoItems.Commands.UpdateTodoItemDetail;
-using DartAppClean.Application.TodoItems.Queries.GetTodoItemsWithPagination;
+using DartAppClean.Application.Disposable.TodoItems.Commands.CreateTodoItem;
+using DartAppClean.Application.Disposable.TodoItems.Commands.DeleteTodoItem;
+using DartAppClean.Application.Disposable.TodoItems.Commands.UpdateTodoItem;
+using DartAppClean.Application.Disposable.TodoItems.Commands.UpdateTodoItemDetail;
+using DartAppClean.Application.Disposable.TodoItems.Queries.GetTodoItemsWithPagination;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DartAppClean.Web.Endpoints;

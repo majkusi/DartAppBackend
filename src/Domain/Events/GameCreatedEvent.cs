@@ -1,6 +1,6 @@
 ﻿using DartAppClean.Domain.Entities.GameEntites;
 namespace DartAppClean.Domain.Events;
-public class MatchCreatedEvent : BaseEvent
+public class MatchCreatedEvent : IBaseEvent
 {
     public MatchCreatedEvent(Match Game)
     {

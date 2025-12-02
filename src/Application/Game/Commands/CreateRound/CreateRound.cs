@@ -25,50 +25,18 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
 
     public async Task<int> Handle(CreateRoundCommand request, CancellationToken cancellationToken)
     {
-        var entity = new Round
+        var round = new Round
         {
             GameId = request.GameId,
             RoundNumber = request.RoundNumber,
             Points = request.Points,
             PlayerUsername = request.PlayerUsername
         };
+        _context.Round.Add(round);
 
-        entity.AddDomainEvent(new RoundCreatedEvent(entity));
-        _context.Round.Add(entity);
-
-        var teamPlayer = _context.TeamPlayer
-            .FirstOrDefault(tp => tp.GameId == request.GameId && tp.PlayerUsername == request.PlayerUsername);
-
-
-        var teams = await _context.Team
-            .Where(t => t.GameId == request.GameId)
-            .Include(t => t.Players.OrderBy(p => p.Id))
-            .ToListAsync(cancellationToken);
-
-
-
-        var maxPlayers = teams.Max(t => t.Players.Count);
-        var turnOrder = Enumerable.Range(0, maxPlayers)
-            .SelectMany(i => teams
-                .Select(t => t.Players.ElementAtOrDefault(i)?.PlayerUsername)
-                .Where(username => username is not null))
-            .Cast<string>()
-            .ToList();
-
-
-        var game = await _context.Game.FirstAsync(g => g.Id == request.GameId, cancellationToken);
-        game.CurrentPlayer = request.PlayerUsername;
-        if (teamPlayer != null)
-        {
-            teamPlayer.ScorePoints(request.Points);
-            if (game != null && teamPlayer.Winner == true)
-            {
-                game.FinishMatch(request.PlayerUsername);
-            }
-        }
+        round.AddDomainEvent(new RoundCreatedEvent(request.GameId, round.Id, round.PlayerUsername, round.Points));
         await _context.SaveChangesAsync(cancellationToken);
-
         await _notificationHub.SendGameStateUpdate(request.GameId, cancellationToken);
-        return entity.RoundNumber;
+        return round.Id;
     }
 }

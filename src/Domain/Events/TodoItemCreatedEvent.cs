@@ -1,7 +1,6 @@
-﻿using DartAppClean.Domain.Entities;
-namespace DartAppClean.Domain.Events;
+﻿namespace DartAppClean.Domain.Events;
 
-public class TodoItemCreatedEvent : BaseEvent
+public class TodoItemCreatedEvent : IBaseEvent
 {
     public TodoItemCreatedEvent(TodoItem item)
     {

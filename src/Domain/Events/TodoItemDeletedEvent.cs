@@ -1,6 +1,6 @@
 ﻿namespace DartAppClean.Domain.Events;
 
-public class TodoItemDeletedEvent : BaseEvent
+public class TodoItemDeletedEvent : IBaseEvent
 {
     public TodoItemDeletedEvent(TodoItem item)
     {

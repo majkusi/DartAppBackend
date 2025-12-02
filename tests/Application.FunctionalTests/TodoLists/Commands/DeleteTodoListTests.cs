@@ -1,5 +1,6 @@
-﻿using DartAppClean.Application.TodoLists.Commands.CreateTodoList;
-using DartAppClean.Application.TodoLists.Commands.DeleteTodoList;
+﻿using DartAppClean.Application.Disposable.TodoLists.Commands.CreateTodoList;
+using DartAppClean.Application.Disposable.TodoLists.Commands.DeleteTodoList;
+
 using DartAppClean.Domain.Entities;
 
 namespace DartAppClean.Application.FunctionalTests.TodoLists.Commands;

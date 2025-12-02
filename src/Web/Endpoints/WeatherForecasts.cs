@@ -1,4 +1,4 @@
-﻿using DartAppClean.Application.WeatherForecasts.Queries.GetWeatherForecasts;
+﻿using DartAppClean.Application.Disposable.WeatherForecasts.Queries.GetWeatherForecasts;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DartAppClean.Web.Endpoints;

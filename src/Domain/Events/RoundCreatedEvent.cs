@@ -1,10 +1,4 @@
-﻿using DartAppClean.Domain.Entities.MatchEntites;
-namespace DartAppClean.Domain.Events;
-public class RoundCreatedEvent : BaseEvent
+﻿namespace DartAppClean.Domain.Events;
+public sealed record RoundCreatedEvent(int gameId, int roundId, string playerUsername, int points) : IBaseEvent
 {
-    public RoundCreatedEvent(Round round)
-    {
-        Round = round;
-    }
-    public Round Round { get; }
 }

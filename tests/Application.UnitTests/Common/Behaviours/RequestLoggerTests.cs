@@ -1,6 +1,6 @@
 ﻿using DartAppClean.Application.Common.Behaviours;
 using DartAppClean.Application.Common.Interfaces;
-using DartAppClean.Application.TodoItems.Commands.CreateTodoItem;
+using DartAppClean.Application.Disposable.TodoItems.Commands.CreateTodoItem;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;

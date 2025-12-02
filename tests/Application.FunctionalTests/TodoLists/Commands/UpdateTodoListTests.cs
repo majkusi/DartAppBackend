@@ -1,6 +1,6 @@
 ﻿using DartAppClean.Application.Common.Exceptions;
-using DartAppClean.Application.TodoLists.Commands.CreateTodoList;
-using DartAppClean.Application.TodoLists.Commands.UpdateTodoList;
+using DartAppClean.Application.Disposable.TodoLists.Commands.CreateTodoList;
+using DartAppClean.Application.Disposable.TodoLists.Commands.UpdateTodoList;
 using DartAppClean.Domain.Entities;
 
 namespace DartAppClean.Application.FunctionalTests.TodoLists.Commands;

@@ -3,8 +3,8 @@ using System.Runtime.CompilerServices;
 using AutoMapper;
 using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Application.Common.Models;
-using DartAppClean.Application.TodoItems.Queries.GetTodoItemsWithPagination;
-using DartAppClean.Application.TodoLists.Queries.GetTodos;
+using DartAppClean.Application.Disposable.TodoItems.Queries.GetTodoItemsWithPagination;
+using DartAppClean.Application.Disposable.TodoLists.Queries.GetTodos;
 using DartAppClean.Domain.Entities;
 using NUnit.Framework;
 

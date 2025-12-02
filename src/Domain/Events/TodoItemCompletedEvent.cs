@@ -1,6 +1,6 @@
 ﻿namespace DartAppClean.Domain.Events;
 
-public class TodoItemCompletedEvent : BaseEvent
+public class TodoItemCompletedEvent : IBaseEvent
 {
     public TodoItemCompletedEvent(TodoItem item)
     {

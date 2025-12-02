@@ -58,7 +58,6 @@ public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchState
             nextPlayer = turnOrder.FirstOrDefault();
         }
 
-
         bool winner = (teamPlayer != null && teamPlayer.Winner == true) ? true : false;
         string winnerUsername = (teamPlayer != null && teamPlayer.Winner == true) ? teamPlayer.PlayerUsername : String.Empty;
 
