@@ -1,4 +1,4 @@
 ﻿namespace DartAppClean.Domain.Events;
-public sealed record RoundCreatedEvent(int gameId, int roundId, string playerUsername, int points) : IBaseEvent
+public sealed record RoundCreatedEvent(int gameId, string playerUsername, int points) : IBaseEvent
 {
 }

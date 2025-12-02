@@ -15,10 +15,8 @@ public record CreateRoundCommand : IRequest<int>
 public class CreateRound : IRequestHandler<CreateRoundCommand, int>
 {
     private readonly IApplicationDbContext _context;
-    private readonly IMatchStateNotificationHub _notificationHub;
-    public CreateRound(IApplicationDbContext context, IMatchStateNotificationHub notificationHub)
+    public CreateRound(IApplicationDbContext context)
     {
-        _notificationHub = notificationHub;
         _context = context;
     }
 
@@ -33,10 +31,8 @@ public class CreateRound : IRequestHandler<CreateRoundCommand, int>
             PlayerUsername = request.PlayerUsername
         };
         _context.Round.Add(round);
-
-        round.AddDomainEvent(new RoundCreatedEvent(request.GameId, round.Id, round.PlayerUsername, round.Points));
+        round.AddDomainEvent(new RoundCreatedEvent(request.GameId, round.PlayerUsername, round.Points));
         await _context.SaveChangesAsync(cancellationToken);
-        await _notificationHub.SendGameStateUpdate(request.GameId, cancellationToken);
         return round.Id;
     }
 }
