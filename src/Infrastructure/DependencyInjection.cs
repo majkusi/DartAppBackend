@@ -1,8 +1,10 @@
 ﻿using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Domain.Constants;
+using DartAppClean.Domain.IRepositories;
 using DartAppClean.Infrastructure.Data;
 using DartAppClean.Infrastructure.Data.Interceptors;
 using DartAppClean.Infrastructure.Identity;
+using DartAppClean.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -28,15 +30,19 @@ public static class DependencyInjection
             options.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         });
 
-        
         builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-
         builder.Services.AddScoped<ApplicationDbContextInitialiser>();
 
+        // REPOSITORIES
+        builder.Services.AddScoped<ITeamPlayerRepository, TeamPlayerRepository>();
+        builder.Services.AddScoped<IMatchRepository, MatchRepository>();
+
+        // SIGNALR HUBS     
         builder.Services.AddScoped<IMatchStateNotificationHub, MatchStateNotificationHubService>();
+
+
         builder.Services.AddAuthentication()
             .AddBearerToken(IdentityConstants.BearerScheme);
-
         builder.Services.AddAuthorizationBuilder();
 
         builder.Services
