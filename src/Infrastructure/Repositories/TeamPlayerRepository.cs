@@ -13,13 +13,17 @@ public class TeamPlayerRepository : ITeamPlayerRepository
         _context = context;
     }
 
-    public Task<TeamPlayer> GetTeamPlayerByUsername(string username, CancellationToken cancellationToken)
+    public async Task<TeamPlayer> GetTeamPlayerByUsername(string username, CancellationToken cancellationToken)
     {
-        return _context.TeamPlayer.Where(tp => tp.PlayerUsername == username).FirstAsync(cancellationToken);
+        return await _context.TeamPlayer
+            .FirstOrDefaultAsync(tp => tp.PlayerUsername == username, cancellationToken)
+            ?? throw new Exception($"TeamPlayer with username {username} not found.");
     }
-    public Task<TeamPlayer> GetTeamPlayerByUsernameAndGameId(string username, int gameId, CancellationToken cancellationToken)
+    public async Task<TeamPlayer> GetTeamPlayerByUsernameAndGameId(string username, int gameId, CancellationToken cancellationToken)
     {
-        return _context.TeamPlayer.Where(tp => tp.PlayerUsername == username && tp.GameId == gameId).FirstAsync(cancellationToken);
+        return await _context.TeamPlayer
+           .FirstOrDefaultAsync(tp => tp.PlayerUsername == username && tp.GameId == gameId, cancellationToken)
+           ?? throw new Exception($"TeamPlayer with username {username} and/or gameId {gameId} not found.");
     }
 
 }

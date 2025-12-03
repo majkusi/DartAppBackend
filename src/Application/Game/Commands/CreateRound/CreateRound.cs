@@ -1,6 +1,5 @@
-﻿using DartAppClean.Application.Common.Interfaces;
-using DartAppClean.Domain.Entities.MatchEntites;
-using DartAppClean.Domain.Events;
+﻿using DartAppClean.Domain.Entities.MatchEntites;
+using DartAppClean.Domain.IRepositories;
 namespace DartAppClean.Application.Match.Commands.CreateRound;
 
 public record CreateRoundCommand : IRequest<int>
@@ -14,25 +13,16 @@ public record CreateRoundCommand : IRequest<int>
 
 public class CreateRound : IRequestHandler<CreateRoundCommand, int>
 {
-    private readonly IApplicationDbContext _context;
-    public CreateRound(IApplicationDbContext context)
+    private readonly IRoundRepository _roundRepository;
+    public CreateRound(IRoundRepository roundRepository)
     {
-        _context = context;
+        _roundRepository = roundRepository;
     }
-
 
     public async Task<int> Handle(CreateRoundCommand request, CancellationToken cancellationToken)
     {
-        var round = new Round
-        {
-            GameId = request.GameId,
-            RoundNumber = request.RoundNumber,
-            Points = request.Points,
-            PlayerUsername = request.PlayerUsername
-        };
-        _context.Round.Add(round);
-        round.AddDomainEvent(new RoundCreatedEvent(request.GameId, round.PlayerUsername, round.Points));
-        await _context.SaveChangesAsync(cancellationToken);
+        var round = Round.Create(request.GameId, request.RoundNumber, request.Points, request.PlayerUsername);
+        await _roundRepository.AddAsync(round, cancellationToken);
         return round.Id;
     }
 }

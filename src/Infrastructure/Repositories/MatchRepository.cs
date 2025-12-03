@@ -13,8 +13,17 @@ public class MatchRepository : IMatchRepository
         _context = context;
     }
 
-    public Task<Match> GetMatchByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<Match> GetMatchByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return _context.Game.Where(m => m.Id == id).FirstAsync(cancellationToken);
+        return await _context.Game
+            .FirstOrDefaultAsync(m => m.Id == id, cancellationToken)
+            ?? throw new Exception($"Match with id {id} not found.");
+    }
+
+    public async Task AddAsync(Match match, CancellationToken cancellationToken)
+    {
+        _context.Game.Add(match);
+        await _context.SaveChangesAsync(cancellationToken);
+
     }
 }

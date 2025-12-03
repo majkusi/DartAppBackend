@@ -8,13 +8,26 @@ namespace DartAppClean.Domain.Entities.GameEntites
         public X01TypeEnum? X01TypeEnum { get; set; }
         public CricketTypeEnum? CricketTypeEnum { get; set; }
         public DateTime GameStartTime { get; set; } = DateTime.UtcNow;
-        public required ICollection<Team> Teams { get; set; } = new List<Team>();
+        public ICollection<Team> Teams { get; set; } = new List<Team>();
         public ICollection<Round>? Rounds { get; set; } = new List<Round>();
         public string CurrentPlayer { get; set; } = String.Empty;
         public bool GameFinished { get; set; } = false;
         public string WinnerUsername { get; set; } = String.Empty;
         public List<string> TurnOrder { get; set; } = new List<string>();
 
+        private Match() { }
+        private Match(GameTypesEnum gameType, X01TypeEnum? x01Type)
+        {
+            GameTypes = gameType;
+            X01TypeEnum = x01Type;
+        }
+
+        public static Match Create(GameTypesEnum gameType, X01TypeEnum? x01Type)
+        {
+            var match = new Match(gameType, x01Type);
+            match.AddDomainEvent(new MatchCreatedEvent(match));
+            return match;
+        }
 
         public void FinishMatch(string winnerUsername)
         {
