@@ -1,24 +1,18 @@
-﻿using DartAppClean.Domain.Entities.MatchEntites;
+﻿using DartAppClean.Application.Game.Queries;
 
 namespace DartAppClean.Application.Match.Queries.TeamQueries;
 public class TeamsDto
 {
+    public TeamsDto(int id, int teamNumber, int gameId, IEnumerable<TeamPlayerDto> players)
+    {
+        Id = id;
+        TeamNumber = teamNumber;
+        MatchId = gameId;
+        Players = players.ToList();
+    }
     public int Id { get; init; }
     public int TeamNumber { get; init; }
     public int MatchId { get; init; }
     public int? Score { get; init; }
-
-    public ICollection<TeamPlayer> Players { get; init; } = new List<TeamPlayer>();
-
-    private class Mapping : Profile
-    {
-        public Mapping()
-        {
-            CreateMap<Team, TeamsDto>()
-                .ForMember(
-                    dest => dest.Players,
-                    opt => opt.MapFrom(src => src.Players.OrderBy(p => p.Order))
-                );
-        }
-    }
+    public List<TeamPlayerDto> Players { get; init; }
 }

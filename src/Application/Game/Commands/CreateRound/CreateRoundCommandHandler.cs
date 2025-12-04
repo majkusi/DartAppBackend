@@ -21,7 +21,11 @@ public class CreateRoundCommandHandler : IRequestHandler<CreateRoundCommand, int
 
     public async Task<int> Handle(CreateRoundCommand request, CancellationToken cancellationToken)
     {
-        var round = Round.Create(request.GameId, request.RoundNumber, request.Points, request.PlayerUsername);
+        var round = Round.Create(
+            request.GameId,
+            request.RoundNumber,
+            request.Points,
+            request.PlayerUsername);
         await _roundRepository.AddAsync(round, cancellationToken);
         return round.Id;
     }

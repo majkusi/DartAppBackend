@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DartAppClean.Domain.Entities.GameEntites;
 
 namespace DartAppClean.Domain.Services;
 
 public interface ITurnOrderService
 {
-    public Task<string> CalculateNextPlayer(string currentPlayer);
+    public string CalculateNextPlayer(Match match, string currentPlayer);
 }
 

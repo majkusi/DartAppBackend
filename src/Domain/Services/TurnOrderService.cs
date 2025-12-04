@@ -1,28 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DartAppClean.Domain.Entities.GameEntites;
-
-namespace DartAppClean.Domain.Services;
+﻿using DartAppClean.Domain.Entities.GameEntites;
+using DartAppClean.Domain.Services;
 
 public class TurnOrderService : ITurnOrderService
 {
-    private readonly Match _match;
-
-    public TurnOrderService(Match match)
+    public string CalculateNextPlayer(Match match, string currentPlayer)
     {
-        _match = match; 
-    }
+        if (match.TurnOrder == null || match.TurnOrder.Count == 0)
+            return "Turn Order is null or empty";
 
-    public async Task<string> CalculateNextPlayer(string currentPlayer)
-    {
-        
-        List<string> turnOrder = _match.TurnOrder;
-        if (turnOrder == null) return "Turn Order is null or empty";
-        int indexOfCurrentPlayer = turnOrder.IndexOf(currentPlayer); 
-        string nextPlayer = turnOrder[indexOfCurrentPlayer+1];
-        return nextPlayer ?? "";
+        int indexOfCurrentPlayer = match.TurnOrder.IndexOf(currentPlayer);
+
+        int nextIndex = (indexOfCurrentPlayer + 1) % match.TurnOrder.Count;
+
+        return match.TurnOrder[nextIndex];
     }
 }

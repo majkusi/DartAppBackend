@@ -22,7 +22,6 @@ namespace DartAppClean.Domain.Entities.MatchEntites
                 IndividualScore = score,
                 Team = this,
                 Game = this.Game,
-
             });
         }
 

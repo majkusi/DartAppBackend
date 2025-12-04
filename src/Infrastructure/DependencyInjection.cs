@@ -1,6 +1,7 @@
 ﻿using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Domain.Constants;
 using DartAppClean.Domain.IRepositories;
+using DartAppClean.Domain.Services;
 using DartAppClean.Infrastructure.Data;
 using DartAppClean.Infrastructure.Data.Interceptors;
 using DartAppClean.Infrastructure.Identity;
@@ -42,7 +43,7 @@ public static class DependencyInjection
         builder.Services.AddScoped<IMatchStateNotificationHub, MatchStateNotificationHubService>();
 
         // SERVICES
-        builder.Services.AddScoped<ITurnOrderService, ITurnOrderService>();
+        builder.Services.AddScoped<ITurnOrderService, TurnOrderService>();
 
 
         builder.Services.AddAuthentication()

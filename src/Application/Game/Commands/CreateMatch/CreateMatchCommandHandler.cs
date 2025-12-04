@@ -10,15 +10,14 @@ public record CreateMatchCommand : IRequest<int>
     public List<string> PlayersName { get; init; } = new List<string>();
     public bool TeamsMode { get; init; }
     public int Score { get; set; }
-
 }
 
-public class CreateMatchCommanHandler : IRequestHandler<CreateMatchCommand, int>
+public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, int>
 {
 
     private readonly IMatchRepository _matchRepository;
 
-    public CreateMatchCommanHandler(IMatchRepository matchRepository)
+    public CreateMatchCommandHandler(IMatchRepository matchRepository)
     {
         _matchRepository = matchRepository;
     }

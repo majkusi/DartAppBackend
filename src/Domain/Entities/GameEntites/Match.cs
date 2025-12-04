@@ -58,6 +58,7 @@ namespace DartAppClean.Domain.Entities.GameEntites
 
                     if (player1 == null) throw new Exception("Player is null ");
                     player1.Order = 1;
+                    CurrentPlayer = player1.PlayerUsername;
                     if (i + 1 < players.Count)
                     {
                         team.AddPlayer(players[i + 1], score, team.GameId);
@@ -105,6 +106,7 @@ namespace DartAppClean.Domain.Entities.GameEntites
                     team.AddPlayer(players[i], score, team.GameId);
                 }
                 TurnOrder = players.ToList();
+                CurrentPlayer = players[0];
             }
         }
 
