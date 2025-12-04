@@ -25,5 +25,6 @@ public class TeamPlayerRepository : ITeamPlayerRepository
            .FirstOrDefaultAsync(tp => tp.PlayerUsername == username && tp.GameId == gameId, cancellationToken)
            ?? throw new Exception($"TeamPlayer with username {username} and/or gameId {gameId} not found.");
     }
-
+    
+   
 }

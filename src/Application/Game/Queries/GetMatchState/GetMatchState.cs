@@ -1,73 +1,66 @@
 ﻿using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Application.Match.Queries.TeamQueries;
+using DartAppClean.Domain.Entities.MatchEntites;
+using DartAppClean.Domain.IRepositories;
+using DartAppClean.Domain.Services;
 
 namespace DartAppClean.Application.Match.Queries.GetMatchState;
 
 public record GetMatchStateCommand(int GameId) : IRequest<GetMatchStateResponse>;
 
+
 public record GetMatchStateResponse(
     int GameId,
-    string[] TurnOrder,
+    IReadOnlyList<string> TurnOrder,
     string? CurrentPlayer,
-    TeamsDto[] Teams,
+    IReadOnlyList<TeamsDto> Teams,
     bool Finished,
-    string WinnerUsername);
+    string? WinnerUsername,
+    string? NextPlayer
+);
+
 
 
 public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchStateResponse>
 {
-    private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
 
-    public GetMatchState(IApplicationDbContext context, IMapper mapper)
+    private readonly ITeamRepository _teamRepository;
+    private readonly IMatchRepository _matchRepository;
+    private readonly ITurnOrderService _turnOrderService;
+    public GetMatchState(
+        ITeamRepository teamRepository,
+        IMatchRepository matchRepository,
+        ITurnOrderService turnOrderService)
     {
-        _context = context;
-        _mapper = mapper;
+        _turnOrderService = turnOrderService;
+        _matchRepository = matchRepository;
+        _teamRepository = teamRepository;
     }
 
     public async Task<GetMatchStateResponse> Handle(GetMatchStateCommand request, CancellationToken cancellationToken)
     {
-        var teams = await _context.Team
-            .Where(t => t.GameId == request.GameId)
-            .ProjectTo<TeamsDto>(_mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
+        var teams = _teamRepository.GetTeamsByGameIdAsync(request.GameId, cancellationToken);
+        var turnOrder = _matchRepository.GetTurnOrderByMatchId(request.GameId, cancellationToken);
 
-        var teamPlayer = _context.TeamPlayer
-            .Where(g => g.GameId == request.GameId)
-            .FirstOrDefault();
+        var currentPlayer = _matchRepository.GetCurrentPlayerByGameId(request.GameId, cancellationToken);
 
-        var game = await _context.Game
-            .AsNoTracking()
-            .FirstOrDefaultAsync(g => g.Id == request.GameId, cancellationToken);
+        if(currentPlayer == null) throw new Exception("currentPlayer is null!");
+        var nextPlayer = _turnOrderService.CalculateNextPlayer(currentPlayer).ToString();
 
-
-        if (game == null) throw new Exception("Game is null!");
-        var turnOrder = game.TurnOrder.ToArray();
-
-        var currentPlayer = game?.CurrentPlayer;
-
-        var nextPlayer = string.Empty;
-
-        if (!string.IsNullOrWhiteSpace(currentPlayer) && turnOrder.Contains(currentPlayer))
+        var winnerUsername = _matchRepository.GetWinnerByGameId(request.GameId, cancellationToken).ToString();
+        bool winner = false;
+        if (!String.IsNullOrEmpty(winnerUsername))
         {
-            int currentPlayerIndex = Array.IndexOf(turnOrder, currentPlayer);
-            nextPlayer = turnOrder[(currentPlayerIndex + 1) % turnOrder.Length];
+            winner = true;
         }
-        else
-        {
-            nextPlayer = turnOrder.FirstOrDefault();
-        }
-
-        bool winner = (teamPlayer != null && teamPlayer.Winner) ? true : false;
-        string winnerUsername = (teamPlayer != null && teamPlayer.Winner == true) ? teamPlayer.PlayerUsername : String.Empty;
-
         return new GetMatchStateResponse(
             request.GameId,
             turnOrder,
-            nextPlayer,
-            teams.ToArray(),
+            currentPlayer,
+            teams,
             winner,
-            winnerUsername
+            winnerUsername,
+            nextPlayer
         );
     }
 }
