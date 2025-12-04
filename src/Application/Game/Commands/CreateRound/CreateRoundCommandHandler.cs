@@ -11,10 +11,10 @@ public record CreateRoundCommand : IRequest<int>
 
 }
 
-public class CreateRound : IRequestHandler<CreateRoundCommand, int>
+public class CreateRoundCommandHandler : IRequestHandler<CreateRoundCommand, int>
 {
     private readonly IRoundRepository _roundRepository;
-    public CreateRound(IRoundRepository roundRepository)
+    public CreateRoundCommandHandler(IRoundRepository roundRepository)
     {
         _roundRepository = roundRepository;
     }
