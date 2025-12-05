@@ -37,7 +37,7 @@ public sealed class MatchReadRepository : IMatchReadRepository
                 {
                     Id = t.Id,
                     TeamNumber = t.TeamNumber,
-                    MatchId = t.GameId,
+                    MatchId = t.MatchId,
                     Score = t.Score,
                     Players = t.Players
                         .OrderBy(p => p.Order)

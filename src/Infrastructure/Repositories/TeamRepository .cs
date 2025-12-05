@@ -17,7 +17,7 @@ public class TeamRepository : ITeamRepository
     {
         return await _context.Team
             .Include(t => t.Players)
-            .Where(t => t.GameId == gameId)
+            .Where(t => t.MatchId == gameId)
             .ToListAsync(cancellationToken);
     }
 }

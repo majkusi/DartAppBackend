@@ -50,15 +50,15 @@ namespace DartAppClean.Domain.Entities.GameEntites
                 {
                     var team = new Team
                     {
-                        Game = this,
-                        GameId = this.Id,
+                        Match = this,
+                        MatchId = this.Id,
                         TeamNumber = teamNumber++,
                         Score = score
                     };
 
                     Teams!.Add(team);
 
-                    team.AddPlayer(players[i], score, team.GameId);
+                    team.AddPlayer(players[i], score, team.MatchId);
                     var player1 = team.Players.Where(p => p.PlayerUsername == players[i]).FirstOrDefault();
 
 
@@ -67,7 +67,7 @@ namespace DartAppClean.Domain.Entities.GameEntites
                     CurrentPlayer = player1.PlayerUsername;
                     if (i + 1 < players.Count)
                     {
-                        team.AddPlayer(players[i + 1], score, team.GameId);
+                        team.AddPlayer(players[i + 1], score, team.MatchId);
                         var player2 = team.Players.Where(p => p.PlayerUsername == players[i + 1]).FirstOrDefault();
                         if (player2 == null) throw new Exception("Player 2 is null");
                         player2.Order = 2;
@@ -103,13 +103,13 @@ namespace DartAppClean.Domain.Entities.GameEntites
                 {
                     var team = new Team
                     {
-                        Game = this,
-                        GameId = this.Id,
+                        Match = this,
+                        MatchId = this.Id,
                         TeamNumber = teamNumber++
                     };
 
                     Teams!.Add(team);
-                    team.AddPlayer(players[i], score, team.GameId);
+                    team.AddPlayer(players[i], score, team.MatchId);
                 }
                 TurnOrder = players.ToList();
                 CurrentPlayer = players[0];

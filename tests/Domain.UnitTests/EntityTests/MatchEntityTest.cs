@@ -6,7 +6,7 @@ using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.Enums;
 using NUnit.Framework;
 
-namespace DartAppClean.Domain.UnitTests
+namespace DartAppClean.Domain.UnitTests.EntityTests
 {
     [TestFixture]
     public class MatchEntityTests
