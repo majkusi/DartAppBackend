@@ -1,4 +1,7 @@
-﻿using DartAppClean.Domain.Entities.GameEntites;
+﻿using DartAppClean.Application.Game;
+using DartAppClean.Application.Game.Queries;
+using DartAppClean.Application.Match.Queries.TeamQueries;
+using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.IRepositories;
 using DartAppClean.Domain.Services;
 using DartAppClean.Infrastructure.Data;
@@ -62,6 +65,48 @@ public class MatchRepository : IMatchRepository
         _context.Game.Add(match);
         await _context.SaveChangesAsync(cancellationToken);
 
+    }
+
+    public async Task<GameStateDto> GetGameStateAsync(int matchId, CancellationToken cancellationToken)
+    {
+        var match = await _context.Game
+            .AsNoTracking()
+            .AsSplitQuery()
+            .Where(g=>g.Id == matchId)
+            .Select(g => new GameStateDto
+            {
+                GameId = g.Id,
+                TurnOrder = g.TurnOrder,
+                CurrentPlayer = g.CurrentPlayer,
+
+                Teams = g.Teams
+                .OrderBy(t => t.TeamNumber)
+                .Select(t => new TeamsDto
+                {
+                    Id = t.Id,
+                    TeamNumber = t.TeamNumber,
+                    MatchId = t.GameId,
+                    Score = t.Score,
+                    Players = t.Players
+                        .OrderBy(p => p.Order)
+                        .Select(p => new TeamPlayerDto
+                        {
+                            PlayerUsername = p.PlayerUsername,
+                            IndividualScore = p.IndividualScore,
+                            Winner = p.Winner,
+                            Order = p.Order
+                        })
+                        .ToList()
+                })
+                .ToList()
+
+            })
+            .SingleOrDefaultAsync(cancellationToken);
+        if(match == null)
+        {
+            throw new Exception("Match is null");
+        }
+        return match;
     }
 
 }

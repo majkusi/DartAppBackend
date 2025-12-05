@@ -39,6 +39,7 @@ public static class DependencyInjection
         builder.Services.AddScoped<IMatchRepository, MatchRepository>();
         builder.Services.AddScoped<ITeamRepository, TeamRepository>();
         builder.Services.AddScoped<IRoundRepository, RoundRepository>();
+        builder.Services.AddScoped<IMatchReadRepository, MatchReadRepository>();
         // SIGNALR HUBS     
         builder.Services.AddScoped<IMatchStateNotificationHub, MatchStateNotificationHubService>();
 
