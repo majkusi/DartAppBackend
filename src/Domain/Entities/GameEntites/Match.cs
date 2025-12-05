@@ -36,10 +36,16 @@ namespace DartAppClean.Domain.Entities.GameEntites
         }
         public void AssignTeams(IList<string> players, bool teamsMode, int score)
         {
+
+            if (players is null) throw new ArgumentNullException(nameof(players));
+            if (players.Count == 0) throw new ArgumentException("Players must not be empty.", nameof(players));
             int teamNumber = 1;
 
             if (teamsMode)
             {
+                if (players.Count % 2 != 0)
+                    throw new ArgumentException("Teams mode requires pairs: the number of players must be even.", nameof(players));
+
                 for (int i = 0; i < players.Count; i += 2)
                 {
                     var team = new Team
