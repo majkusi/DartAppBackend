@@ -37,7 +37,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
             e.HasMany(g => g.Rounds)
                 .WithOne(r => r.Game)
-                .HasForeignKey(r => r.GameId)
+                .HasForeignKey(r => r.MatchId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 

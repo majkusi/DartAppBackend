@@ -4,11 +4,11 @@ namespace DartAppClean.Domain.Entities.MatchEntites
 {
     public class Round : BaseAuditableEntity
     {
-        public int GameId { get; set; }
+        public int MatchId { get; set; }
         public int PlayerId { get; set; }
         public string PlayerUsername { get; set; } = null!;
         public Match Game { get; set; } = null!;
-        public int RoundNumber { get; set; }
+        public int? RoundNumber { get; set; }
         public DateTime StartedAt { get; set; } = DateTime.UtcNow;
         public int Points { get; set; }
 
@@ -16,19 +16,23 @@ namespace DartAppClean.Domain.Entities.MatchEntites
 
         private Round(int gameId, int roundNumber, int points, string playerUsername)
         {
-            GameId = gameId;
+            MatchId = gameId;
             RoundNumber = roundNumber;
             Points = points;
             PlayerUsername = playerUsername;
         }
-        public static Round Create(int gameId, int roundNumber, int points, string playerUsername)
+        public static Round Create(int matchId, int roundNumber, int points, string playerUsername)
         {
-            var round = new Round(gameId, roundNumber, points, playerUsername);
-            round.AddDomainEvent(new RoundCreatedEvent(round.GameId, round.PlayerUsername, round.Points));
+            if (matchId < 0)
+                throw new ArgumentException("Provided matchId is less to zero");
+            if (string.IsNullOrEmpty(playerUsername))
+                throw new ArgumentException("Provided playerUsername is null or empty");
+            if (points < 0)
+                throw new ArgumentException("Provided points are less than zero");
+            var round = new Round(matchId, roundNumber, points, playerUsername);
+            round.AddDomainEvent(new RoundCreatedEvent(round.MatchId, round.PlayerUsername, round.Points));
+
             return round;
         }
-
-
-
     }
 }
