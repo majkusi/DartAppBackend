@@ -88,7 +88,7 @@ namespace DartAppClean.Domain.UnitTests
             Assert.That(tp.PlayerUsername, Is.EqualTo("alice"));
             Assert.That(tp.IndividualScore, Is.EqualTo(42));
             Assert.That(tp.Team, Is.SameAs(team));
-            Assert.That(tp.Game, Is.SameAs(team.Match));
+            Assert.That(tp.Match, Is.SameAs(team.Match));
         }
 
         private static readonly string[] expected = new[] { "alice", "bob" };
@@ -112,7 +112,7 @@ namespace DartAppClean.Domain.UnitTests
             foreach (var p in team.Players)
             {
                 Assert.That(p.Team, Is.SameAs(team));
-                Assert.That(p.Game, Is.SameAs(team.Match));
+                Assert.That(p.Match, Is.SameAs(team.Match));
             }
         }
 
