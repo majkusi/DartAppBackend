@@ -36,7 +36,7 @@ namespace DartAppClean.Domain.Entities.MatchEntites
                 PlayerUsername = normalized,  
                 IndividualScore = score,
                 Team = this,
-                Game = this.Match,
+                Match = this.Match,
             });
         }
     }

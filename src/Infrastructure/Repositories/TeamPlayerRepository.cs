@@ -22,7 +22,7 @@ public class TeamPlayerRepository : ITeamPlayerRepository
     public async Task<TeamPlayer> GetTeamPlayerByUsernameAndGameId(string username, int gameId, CancellationToken cancellationToken)
     {
         return await _context.TeamPlayer
-           .FirstOrDefaultAsync(tp => tp.PlayerUsername == username && tp.GameId == gameId, cancellationToken)
+           .FirstOrDefaultAsync(tp => tp.PlayerUsername == username && tp.MatchId == gameId, cancellationToken)
            ?? throw new Exception($"TeamPlayer with username {username} and/or gameId {gameId} not found.");
     }
     
