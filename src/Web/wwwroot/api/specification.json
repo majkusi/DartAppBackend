@@ -1108,11 +1108,11 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "gameId": {
+              "matchId": {
                 "type": "integer",
                 "format": "int32"
               },
-              "game": {
+              "match": {
                 "$ref": "#/components/schemas/Match"
               },
               "teamNumber": {
@@ -1211,7 +1211,7 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "gameId": {
+              "matchId": {
                 "type": "integer",
                 "format": "int32"
               },
@@ -1227,7 +1227,8 @@
               },
               "roundNumber": {
                 "type": "integer",
-                "format": "int32"
+                "format": "int32",
+                "nullable": true
               },
               "startedAt": {
                 "type": "string",
@@ -1301,7 +1302,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "gameId": {
+          "matchId": {
             "type": "integer",
             "format": "int32"
           },
@@ -1309,7 +1310,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "game": {
+          "match": {
             "$ref": "#/components/schemas/Match"
           },
           "team": {

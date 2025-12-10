@@ -115,8 +115,5 @@ namespace DartAppClean.Domain.Entities.GameEntites
                 CurrentPlayer = players[0];
             }
         }
-
-
-
     }
 }
