@@ -1423,7 +1423,7 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "gameId": {
+          "matchId": {
             "type": "integer",
             "format": "int32"
           },

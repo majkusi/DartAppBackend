@@ -10,7 +10,7 @@ public class CreateRoundCommandHandlerValidator : AbstractValidator<CreateRoundC
             .NotEmpty()
             .MinimumLength(2)
             .MaximumLength(10);
-        RuleFor(c => c.GameId)
+        RuleFor(c => c.MatchId)
             .NotEmpty()
             .NotNull();
     }
