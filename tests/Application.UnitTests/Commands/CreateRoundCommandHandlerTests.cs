@@ -1,13 +1,8 @@
-﻿
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using DartAppClean.Application.Match.Commands.CreateRound;
+﻿using DartAppClean.Application.Match.Commands.CreateRound;
+using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.IRepositories;
-using DartAppClean.Domain.Entities.MatchEntites;
 using Moq;
 using NUnit.Framework;
-using RoundEntity = DartAppClean.Domain.Entities.MatchEntites.Round;
 
 namespace DartAppClean.Application.UnitTests.Match.Commands
 {
@@ -42,8 +37,8 @@ namespace DartAppClean.Application.UnitTests.Match.Commands
             };
 
             _repoMock
-                .Setup(r => r.AddAsync(It.IsAny<RoundEntity>(), It.IsAny<CancellationToken>()))
-                .Callback<RoundEntity, CancellationToken>((round, _) => round.Id = 101)
+                .Setup(r => r.AddAsync(It.IsAny<Round>(), It.IsAny<CancellationToken>()))
+                .Callback<Round, CancellationToken>((round, _) => round.Id = 101)
                 .Returns(Task.CompletedTask);
 
             var cts = new CancellationTokenSource();
@@ -52,7 +47,7 @@ namespace DartAppClean.Application.UnitTests.Match.Commands
 
             Assert.That(id, Is.EqualTo(101));
             _repoMock.Verify(r => r.AddAsync(
-                It.Is<RoundEntity>(round =>
+                It.Is<Round>(round =>
                     round.MatchId == 42 &&
                     round.RoundNumber == 3 &&
                     round.Points == 140 &&
@@ -78,7 +73,7 @@ namespace DartAppClean.Application.UnitTests.Match.Commands
             Assert.ThrowsAsync<ArgumentException>(async () =>
                 await _handler.Handle(cmd, cts.Token));
 
-            _repoMock.Verify(r => r.AddAsync(It.IsAny<RoundEntity>(), It.IsAny<CancellationToken>()), Times.Never);
+            _repoMock.Verify(r => r.AddAsync(It.IsAny<Round>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
@@ -93,7 +88,7 @@ namespace DartAppClean.Application.UnitTests.Match.Commands
             };
 
             _repoMock
-                .Setup(r => r.AddAsync(It.IsAny<RoundEntity>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.AddAsync(It.IsAny<Round>(), It.IsAny<CancellationToken>()))
                 .ThrowsAsync(new Exception("DB down"));
 
             var cts = new CancellationTokenSource();
@@ -102,7 +97,7 @@ namespace DartAppClean.Application.UnitTests.Match.Commands
                 await _handler.Handle(cmd, cts.Token));
 
             Assert.That(ex!.Message, Does.Contain("DB down"));
-            _repoMock.Verify(r => r.AddAsync(It.IsAny<RoundEntity>(), cts.Token), Times.Once);
+            _repoMock.Verify(r => r.AddAsync(It.IsAny<Round>(), cts.Token), Times.Once);
         }
 
         [Test]
@@ -119,14 +114,14 @@ namespace DartAppClean.Application.UnitTests.Match.Commands
             var cts = new CancellationTokenSource();
 
             _repoMock
-                .Setup(r => r.AddAsync(It.IsAny<RoundEntity>(), It.IsAny<CancellationToken>()))
-                .Callback<RoundEntity, CancellationToken>((round, _) => round.Id = 777)
+                .Setup(r => r.AddAsync(It.IsAny<Round>(), It.IsAny<CancellationToken>()))
+                .Callback<Round, CancellationToken>((round, _) => round.Id = 777)
                 .Returns(Task.CompletedTask);
 
             var id = await _handler.Handle(cmd, cts.Token);
 
             Assert.That(id, Is.EqualTo(777));
-            _repoMock.Verify(r => r.AddAsync(It.IsAny<RoundEntity>(), cts.Token), Times.Once);
+            _repoMock.Verify(r => r.AddAsync(It.IsAny<Round>(), cts.Token), Times.Once);
         }
     }
 }

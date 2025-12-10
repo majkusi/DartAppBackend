@@ -1,7 +1,4 @@
-﻿
-using System;
-using DartAppClean.Domain.Entities.GameEntites;
-using DartAppClean.Domain.Entities.MatchEntites;
+﻿using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.Enums;
 using NUnit.Framework;
 
@@ -85,34 +82,34 @@ namespace DartAppClean.Domain.UnitTests
 
             player.ScorePoints(31);
 
-            Assert.That(player.IndividualScore, Is.EqualTo(30)); 
+            Assert.That(player.IndividualScore, Is.EqualTo(30));
             Assert.That(player.Winner, Is.False);
         }
 
-        
+
         [Test]
         public void ScorePoints_MultipleCalls_ShouldOnlySetWinnerOnExactFinish()
         {
             var player = CreateTeamPlayer(initialScore: 50);
 
-            player.ScorePoints(20); 
+            player.ScorePoints(20);
             Assert.That(player.IndividualScore, Is.EqualTo(30));
             Assert.That(player.Winner, Is.False);
 
-            player.ScorePoints(10); 
+            player.ScorePoints(10);
             Assert.That(player.IndividualScore, Is.EqualTo(20));
             Assert.That(player.Winner, Is.False);
 
-            player.ScorePoints(25); 
+            player.ScorePoints(25);
             Assert.That(player.IndividualScore, Is.EqualTo(20));
             Assert.That(player.Winner, Is.False);
 
-            player.ScorePoints(20); 
+            player.ScorePoints(20);
             Assert.That(player.IndividualScore, Is.EqualTo(0));
             Assert.That(player.Winner, Is.True);
         }
 
-        
+
         [Test]
         public void ScorePoints_ShouldNotChange_OtherFields()
         {
