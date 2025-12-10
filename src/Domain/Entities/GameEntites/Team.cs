@@ -1,7 +1,4 @@
-﻿
-using DartAppClean.Domain.Entities.GameEntites;
-
-namespace DartAppClean.Domain.Entities.MatchEntites
+﻿namespace DartAppClean.Domain.Entities.GameEntites
 {
     public class Team : BaseAuditableEntity
     {
@@ -33,7 +30,7 @@ namespace DartAppClean.Domain.Entities.MatchEntites
 
             Players.Add(new TeamPlayer
             {
-                PlayerUsername = normalized,  
+                PlayerUsername = normalized,
                 IndividualScore = score,
                 Team = this,
                 Match = this.Match,

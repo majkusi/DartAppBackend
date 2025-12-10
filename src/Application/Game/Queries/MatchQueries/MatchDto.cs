@@ -1,4 +1,4 @@
-﻿using DartAppClean.Domain.Entities.MatchEntites;
+﻿using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.Enums;
 
 namespace DartAppClean.Application.Match.Queries.MatchQueries;

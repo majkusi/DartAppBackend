@@ -18,7 +18,7 @@ public class MatchRepository : IMatchRepository
         _context = context;
     }
 
-    public async Task<Match> GetMatchByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<Match?> GetMatchByIdAsync(int id, CancellationToken cancellationToken)
     {
         return await _context.Game
             .FirstOrDefaultAsync(m => m.Id == id, cancellationToken)
@@ -72,7 +72,7 @@ public class MatchRepository : IMatchRepository
         var match = await _context.Game
             .AsNoTracking()
             .AsSplitQuery()
-            .Where(g=>g.Id == matchId)
+            .Where(g => g.Id == matchId)
             .Select(g => new GameStateDto
             {
                 GameId = g.Id,
@@ -102,7 +102,7 @@ public class MatchRepository : IMatchRepository
 
             })
             .SingleOrDefaultAsync(cancellationToken);
-        if(match == null)
+        if (match == null)
         {
             throw new Exception("Match is null");
         }

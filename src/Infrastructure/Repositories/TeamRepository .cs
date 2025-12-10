@@ -1,4 +1,4 @@
-﻿using DartAppClean.Domain.Entities.MatchEntites;
+﻿using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.IRepositories;
 using DartAppClean.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

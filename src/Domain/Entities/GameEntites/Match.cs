@@ -1,6 +1,4 @@
-﻿using DartAppClean.Domain.Entities.MatchEntites;
-
-namespace DartAppClean.Domain.Entities.GameEntites
+﻿namespace DartAppClean.Domain.Entities.GameEntites
 {
     public class Match : BaseAuditableEntity
     {
@@ -15,8 +13,8 @@ namespace DartAppClean.Domain.Entities.GameEntites
         public string WinnerUsername { get; set; } = String.Empty;
         public List<string> TurnOrder { get; set; } = new List<string>();
 
-        private Match() { }
-        private Match(GameTypesEnum gameType, X01TypeEnum? x01Type)
+        public Match() { }
+        public Match(GameTypesEnum gameType, X01TypeEnum? x01Type)
         {
             GameTypes = gameType;
             X01TypeEnum = x01Type;

@@ -1,6 +1,4 @@
-﻿using DartAppClean.Domain.Entities.GameEntites;
-
-namespace DartAppClean.Domain.Entities.MatchEntites
+﻿namespace DartAppClean.Domain.Entities.GameEntites
 {
     public class Round : BaseAuditableEntity
     {

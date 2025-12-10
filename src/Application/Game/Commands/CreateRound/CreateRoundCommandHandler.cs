@@ -1,4 +1,4 @@
-﻿using DartAppClean.Domain.Entities.MatchEntites;
+﻿using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.IRepositories;
 namespace DartAppClean.Application.Match.Commands.CreateRound;
 
