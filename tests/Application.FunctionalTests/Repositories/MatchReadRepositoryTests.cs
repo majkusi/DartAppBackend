@@ -1,51 +1,18 @@
-﻿using Application.FunctionalTests.TestingInfrastructure; // ApplicationDbContextTest
+﻿using Application.FunctionalTests.TestingInfrastructure;
 using DartAppClean.Application.Common.Interfaces;
+using DartAppClean.Application.FunctionalTests.Repositories;
 using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Testcontainers.PostgreSql;
-
 namespace Application.FunctionalTests.Repositories
 {
     [TestFixture]
-    public class MatchReadRepositoryTests
+    public class MatchReadRepositoryTests : RepositoryTestBase
     {
-        private PostgreSqlContainer _pg = default!;
-        private DbContextOptions<ApplicationDbContextTest> _options = default!;
-
-        [OneTimeSetUp]
-        public async Task GlobalSetup()
-        {
-            _pg = new PostgreSqlBuilder()
-                .WithImage("postgres:16-alpine")
-                .WithDatabase("tests")
-                .WithUsername("postgres")
-                .WithPassword("postgres")
-                .Build();
-
-            await _pg.StartAsync();
-
-            _options = new DbContextOptionsBuilder<ApplicationDbContextTest>()
-                .UseNpgsql(_pg.GetConnectionString())
-                .EnableSensitiveDataLogging()
-                .Options;
-
-            using var ctx = new ApplicationDbContextTest(_options);
-            await ctx.Database.EnsureCreatedAsync();
-        }
-
-        [OneTimeTearDown]
-        public async Task GlobalTeardown()
-        {
-            if (_pg != null)
-                await _pg.DisposeAsync();
-        }
-
 
         private async Task SeedMatchAsync(DbContextOptions<ApplicationDbContextTest> options, int matchId)
         {
-            using var ctx = new ApplicationDbContextTest(options);
-
+            using var testContext = new ApplicationDbContextTest(options);
 
             var match = new DartAppClean.Domain.Entities.GameEntites.Match
             {
@@ -93,8 +60,8 @@ namespace Application.FunctionalTests.Repositories
 
             match.Teams = new List<Team> { team1, team2 };
 
-            ctx.Game.Add(match);
-            await ctx.SaveChangesAsync();
+            testContext.Game.Add(match);
+            await testContext.SaveChangesAsync();
         }
 
         [Test]
