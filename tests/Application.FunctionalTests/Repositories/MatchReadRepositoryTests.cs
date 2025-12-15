@@ -1,15 +1,8 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.FunctionalTests.TestingInfrastructure; // ApplicationDbContextTest
+﻿using Application.FunctionalTests.TestingInfrastructure; // ApplicationDbContextTest
 using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
 using Testcontainers.PostgreSql;
 
 namespace Application.FunctionalTests.Repositories
@@ -53,31 +46,28 @@ namespace Application.FunctionalTests.Repositories
         {
             using var ctx = new ApplicationDbContextTest(options);
 
-            // Korzeń agregatu
+
             var match = new DartAppClean.Domain.Entities.GameEntites.Match
             {
                 Id = matchId,
-                GameTypes = null,         // jeśli niepotrzebne, możesz zostawić null
+                GameTypes = null,
                 X01TypeEnum = null,
                 CricketTypeEnum = null,
                 CurrentPlayer = "alice",
                 WinnerUsername = string.Empty,
                 GameFinished = false,
-                TurnOrder = new List<string> { "alice", "bob" }, // Postgres text[] zmapowany w OnModelCreating
+                TurnOrder = new List<string> { "alice", "bob" },
             };
 
-            // Team #1 — wymagane: Match i MatchId
             var team1 = new Team
             {
-                Match = match,            // REQUIRED
-                MatchId = matchId,        // Twoja domena tego wymaga (AddPlayer sprawdza zgodność)
+                Match = match,
+                MatchId = matchId,
                 TeamNumber = 1,
                 Score = 300,
             };
 
-            // Dodaj graczy do team1 przez metodę domenową:
             team1.AddPlayer("alice", score: 100, matchId: matchId);
-            // Uzupełnij wymagane/order:
             var alice = team1.Players.First(p => p.PlayerUsername == "alice");
             alice.Order = 1;
 
@@ -85,10 +75,9 @@ namespace Application.FunctionalTests.Repositories
             var dave = team1.Players.First(p => p.PlayerUsername == "dave");
             dave.Order = 2;
 
-            // Team #2 — również ustaw nawigacje
             var team2 = new Team
             {
-                Match = match,            // REQUIRED
+                Match = match,
                 MatchId = matchId,
                 TeamNumber = 2,
                 Score = 200,
@@ -102,10 +91,8 @@ namespace Application.FunctionalTests.Repositories
             var carol = team2.Players.First(p => p.PlayerUsername == "carol");
             carol.Order = 2;
 
-            // Powiąż drużyny z meczem
             match.Teams = new List<Team> { team1, team2 };
 
-            // Zapisz całą agregację rozpoczynając od korzenia
             ctx.Game.Add(match);
             await ctx.SaveChangesAsync();
         }
@@ -127,10 +114,8 @@ namespace Application.FunctionalTests.Repositories
             Assert.That(state.TurnOrder, Is.EqualTo(new[] { "alice", "bob" }));
             Assert.That(state.CurrentPlayer, Is.EqualTo("alice"));
 
-            // Sortowanie Teams -> TeamNumber
             Assert.That(state.Teams.Select(t => t.TeamNumber), Is.EqualTo(new[] { 1, 2 }));
 
-            // Sortowanie Players -> Order w każdej drużynie
             Assert.That(state.Teams[0].Players.Select(p => p.PlayerUsername), Is.EqualTo(new[] { "alice", "dave" }));
             Assert.That(state.Teams[1].Players.Select(p => p.PlayerUsername), Is.EqualTo(new[] { "bob", "carol" }));
         }
