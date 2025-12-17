@@ -11,20 +11,31 @@
         public int IndividualScore { get; set; }
         public bool Winner { get; set; }
         public int Order { get; set; }
+        public float Average { get; set; }
+        public int RoundCounter { get; set; }
+        public bool isCricket { get; set; } = false;
+        public ICollection<int> PointsPerRound { get; set; } = new List<int>();
         public void ScorePoints(int points)
         {
-            if (points < 0)
-                throw new ArgumentException("Points cannot be negative.");
+            if (isCricket == false)
+            {
+                if (points < 0)
+                    throw new ArgumentException("Points cannot be negative.");
 
-            if (points == IndividualScore)
-            {
-                IndividualScore = 0;
-                Winner = true;
+                if (points == IndividualScore)
+                {
+                    IndividualScore = 0;
+                    Winner = true;
+                }
+                else if (points < IndividualScore)
+                {
+                    PointsPerRound.Add(points);
+                    IndividualScore -= points;
+                    Average = PointsPerRound.Sum() / PointsPerRound.Count();
+                }
             }
-            else if (points < IndividualScore)
-            {
-                IndividualScore -= points;
-            }
+
+
         }
 
     }
