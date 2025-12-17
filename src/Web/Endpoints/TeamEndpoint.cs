@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DartAppClean.Web.Endpoints;
 
-public class Team : EndpointGroupBase
+public class TeamEndpoint : EndpointGroupBase
 {
     public override void Map(RouteGroupBuilder groupBuilder)
     {

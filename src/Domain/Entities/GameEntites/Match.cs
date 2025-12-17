@@ -14,15 +14,16 @@
         public List<string> TurnOrder { get; set; } = new List<string>();
 
         public Match() { }
-        public Match(GameTypesEnum gameType, X01TypeEnum? x01Type)
+        public Match(GameTypesEnum gameType, X01TypeEnum? x01Type, CricketTypeEnum? cricketType)
         {
             GameTypes = gameType;
             X01TypeEnum = x01Type;
+            CricketTypeEnum = cricketType;
         }
 
-        public static Match Create(GameTypesEnum gameType, X01TypeEnum? x01Type)
+        public static Match Create(GameTypesEnum gameType, X01TypeEnum? x01Type, CricketTypeEnum? cricketType)
         {
-            var match = new Match(gameType, x01Type);
+            var match = new Match(gameType, x01Type, cricketType);
             match.AddDomainEvent(new MatchCreatedEvent(match));
             return match;
         }
@@ -34,7 +35,6 @@
         }
         public void AssignTeams(IList<string> players, bool teamsMode, int score)
         {
-
             if (players is null) throw new ArgumentNullException(nameof(players));
             if (players.Count == 0) throw new ArgumentException("Players must not be empty.", nameof(players));
             int teamNumber = 1;

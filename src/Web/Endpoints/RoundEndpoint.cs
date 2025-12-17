@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DartAppClean.Web.Endpoints;
 
-public class Round : EndpointGroupBase
+public class RoundEndpoint : EndpointGroupBase
 {
     public override void Map(RouteGroupBuilder groupBuilder)
     {
@@ -14,7 +14,7 @@ public class Round : EndpointGroupBase
     public async Task<Created<int>> CreateRound(ISender sender, CreateRoundCommand command, CancellationToken cancellationToken)
     {
         var id = await sender.Send(command);
-        return TypedResults.Created($"/{nameof(Match)}/{id}", id);
+        return TypedResults.Created($"/{nameof(MatchEndpoint)}/{id}", id);
     }
 
 }

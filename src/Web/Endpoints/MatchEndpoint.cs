@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DartAppClean.Web.Endpoints;
 
-public class Match : EndpointGroupBase
+public class MatchEndpoint : EndpointGroupBase
 {
     public override void Map(RouteGroupBuilder groupBuilder)
     {
@@ -19,7 +19,7 @@ public class Match : EndpointGroupBase
     public async Task<Created<int>> CreateMatch(ISender sender, CreateMatchCommand command)
     {
         var id = await sender.Send(command);
-        return TypedResults.Created($"/{nameof(Match)}/{id}", id);
+        return TypedResults.Created($"/{nameof(MatchEndpoint)}/{id}", id);
     }
 
     public async Task<Results<Ok<MatchVm>, NotFound>> GetMatchById(int id, ISender sender)
@@ -28,7 +28,7 @@ public class Match : EndpointGroupBase
         return TypedResults.Ok(match);
     }
 
-    public async Task<Results<Ok<GetMatchStateResponse>, NotFound>> GetMatchState(int id,  ISender sender)
+    public async Task<Results<Ok<GetMatchStateResponse>, NotFound>> GetMatchState(int id, ISender sender)
     {
         var matchState = await sender.Send(new GetMatchStateCommand(id));
         return TypedResults.Ok(matchState);
