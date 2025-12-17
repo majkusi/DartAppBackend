@@ -13,12 +13,12 @@
         public int Order { get; set; }
         public float? X01Average { get; set; }
         public int RoundCounter { get; set; }
-        public bool isCricket { get; set; } = false;
+        public bool IsCricket { get; set; } = false;
         public ICollection<int> PointsPerRound { get; set; } = new List<int>();
         public ICollection<List<int>> CricketPointsPerRound { get; set; } = new List<List<int>>();
         public void ScorePoints(int points)
         {
-            if (isCricket == true)
+            if (IsCricket == true)
             {
 
             }
