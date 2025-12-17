@@ -3,8 +3,8 @@
     public class Match : BaseAuditableEntity
     {
         public GameTypesEnum? GameTypes { get; set; }
-        public X01TypeEnum? X01TypeEnum { get; set; }
-        public CricketTypeEnum? CricketTypeEnum { get; set; }
+        public X01TypeEnum? X01TypeEnum { get; set; } = null;
+        public CricketTypeEnum? CricketTypeEnum { get; set; } = null;
         public DateTime GameStartTime { get; set; } = DateTime.UtcNow;
         public ICollection<Team> Teams { get; set; } = new List<Team>();
         public ICollection<Round>? Rounds { get; set; } = new List<Round>();
@@ -23,6 +23,7 @@
 
         public static Match Create(GameTypesEnum gameType, X01TypeEnum? x01Type, CricketTypeEnum? cricketType)
         {
+            if (x01Type is not null && cricketType is not null) throw new ArgumentException("Both X01 and Cricket are tried to be set! Match can only be one of them!");
             var match = new Match(gameType, x01Type, cricketType);
             match.AddDomainEvent(new MatchCreatedEvent(match));
             return match;
@@ -60,7 +61,7 @@
                     var player1 = team.Players.Where(p => p.PlayerUsername == players[i]).FirstOrDefault();
 
 
-                    if (player1 == null) throw new Exception("Player is null ");
+                    if (player1 is null) throw new Exception("Player is null ");
                     player1.Order = 1;
                     CurrentPlayer = player1.PlayerUsername;
                     if (i + 1 < players.Count)
