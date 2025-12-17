@@ -15,7 +15,7 @@
         public int RoundCounter { get; set; }
         public bool isCricket { get; set; } = false;
         public ICollection<int> PointsPerRound { get; set; } = new List<int>();
-        public ICollection<List<int>> CrickerPointsPerRound { get; set; } = new List<List<int>>();
+        public ICollection<List<int>> CricketPointsPerRound { get; set; } = new List<List<int>>();
         public void ScorePoints(int points)
         {
             if (isCricket == true)
