@@ -8,6 +8,7 @@ public record CreateMatchCommand : IRequest<int>
     public GameTypesEnum GameType { get; init; }
     public X01TypeEnum? X01TypeEnum { get; init; }
     public CricketTypeEnum? CricketTypeEnum { get; init; }
+    public bool IsCricket { get; init; } = false;
     public List<string> PlayersName { get; init; } = new List<string>();
     public bool TeamsMode { get; init; }
     public int Score { get; set; }

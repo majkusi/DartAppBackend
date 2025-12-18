@@ -6,6 +6,7 @@
         public X01TypeEnum? X01TypeEnum { get; set; } = null;
         public CricketTypeEnum? CricketTypeEnum { get; set; } = null;
         public DateTime GameStartTime { get; set; } = DateTime.UtcNow;
+        public bool IsCricket { get; set; } = false;
         public ICollection<Team> Teams { get; set; } = new List<Team>();
         public ICollection<Round>? Rounds { get; set; } = new List<Round>();
         public string CurrentPlayer { get; set; } = String.Empty;

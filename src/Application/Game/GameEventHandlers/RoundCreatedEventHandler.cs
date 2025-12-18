@@ -43,8 +43,15 @@ public class RoundCreatedEventHandler : INotificationHandler<RoundCreatedEvent>
                     notification.playerUsername, notification.gameId);
                 return;
             }
+            if (game.IsCricket == true)
+            {
+                teamPlayer.ScorePointsCricket(notification.cricketPoints);
+            }
+            else
+            {
+                teamPlayer.ScorePointsX01(notification.points);
+            }
 
-            teamPlayer.ScorePoints(notification.points);
             game.CurrentPlayer = notification.playerUsername;
 
             if (teamPlayer.Winner)

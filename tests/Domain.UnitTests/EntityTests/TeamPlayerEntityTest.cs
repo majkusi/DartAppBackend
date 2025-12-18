@@ -44,7 +44,7 @@ namespace DartAppClean.Domain.UnitTests
         {
             var player = CreateTeamPlayer(initialScore: 50);
 
-            var ex = Assert.Throws<ArgumentException>(() => player.ScorePoints(-1));
+            var ex = Assert.Throws<ArgumentException>(() => player.ScorePointsX01(-1));
             Assert.That(ex!.Message, Is.EqualTo("Points cannot be negative."));
             Assert.That(player.IndividualScore, Is.EqualTo(50));
             Assert.That(player.Winner, Is.False);
@@ -56,7 +56,7 @@ namespace DartAppClean.Domain.UnitTests
         {
             var player = CreateTeamPlayer(initialScore: 42);
 
-            player.ScorePoints(42);
+            player.ScorePointsX01(42);
 
             Assert.That(player.IndividualScore, Is.EqualTo(0));
             Assert.That(player.Winner, Is.True);
@@ -68,7 +68,7 @@ namespace DartAppClean.Domain.UnitTests
         {
             var player = CreateTeamPlayer(initialScore: 60);
 
-            player.ScorePoints(15);
+            player.ScorePointsX01(15);
 
             Assert.That(player.IndividualScore, Is.EqualTo(45));
             Assert.That(player.Winner, Is.False);
@@ -80,7 +80,7 @@ namespace DartAppClean.Domain.UnitTests
         {
             var player = CreateTeamPlayer(initialScore: 30);
 
-            player.ScorePoints(31);
+            player.ScorePointsX01(31);
 
             Assert.That(player.IndividualScore, Is.EqualTo(30));
             Assert.That(player.Winner, Is.False);
@@ -92,19 +92,19 @@ namespace DartAppClean.Domain.UnitTests
         {
             var player = CreateTeamPlayer(initialScore: 50);
 
-            player.ScorePoints(20);
+            player.ScorePointsX01(20);
             Assert.That(player.IndividualScore, Is.EqualTo(30));
             Assert.That(player.Winner, Is.False);
 
-            player.ScorePoints(10);
+            player.ScorePointsX01(10);
             Assert.That(player.IndividualScore, Is.EqualTo(20));
             Assert.That(player.Winner, Is.False);
 
-            player.ScorePoints(25);
+            player.ScorePointsX01(25);
             Assert.That(player.IndividualScore, Is.EqualTo(20));
             Assert.That(player.Winner, Is.False);
 
-            player.ScorePoints(20);
+            player.ScorePointsX01(20);
             Assert.That(player.IndividualScore, Is.EqualTo(0));
             Assert.That(player.Winner, Is.True);
         }
@@ -125,7 +125,7 @@ namespace DartAppClean.Domain.UnitTests
                 Order = 1
             };
 
-            player.ScorePoints(5);
+            player.ScorePointsX01(5);
 
             Assert.That(player.PlayerUsername, Is.EqualTo("bob"));
             Assert.That(player.Order, Is.EqualTo(1));
@@ -138,7 +138,7 @@ namespace DartAppClean.Domain.UnitTests
         {
             var player = CreateTeamPlayer(initialScore: 33);
 
-            player.ScorePoints(0);
+            player.ScorePointsX01(0);
 
             Assert.That(player.IndividualScore, Is.EqualTo(33));
             Assert.That(player.Winner, Is.False);
