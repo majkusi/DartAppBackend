@@ -1,5 +1,5 @@
 ﻿namespace DartAppClean.Application.Game.Queries;
-public class TeamPlayerDto
+public class TeamPlayerX01Dto
 {
     public string PlayerUsername { get; set; } = null!;
     public int IndividualScore { get; set; }

@@ -13,7 +13,6 @@
         public int Order { get; set; }
         public float? Average { get; set; }
         public int CricketMarksCounter { get; set; }
-
         public ICollection<int> PointsPerRound { get; set; } = new List<int>();
         public ICollection<List<int>> CricketPointsPerRound { get; set; } = new List<List<int>>();
         public void ScorePointsX01(int points)

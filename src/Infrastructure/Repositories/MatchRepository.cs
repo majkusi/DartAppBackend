@@ -89,7 +89,7 @@ public class MatchRepository : IMatchRepository
                     Score = t.Score,
                     Players = t.Players
                         .OrderBy(p => p.Order)
-                        .Select(p => new TeamPlayerDto
+                        .Select(p => new TeamPlayerX01Dto
                         {
                             PlayerUsername = p.PlayerUsername,
                             IndividualScore = p.IndividualScore,
