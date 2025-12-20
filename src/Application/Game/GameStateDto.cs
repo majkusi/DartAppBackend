@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DartAppClean.Application.Match.Queries.TeamQueries;
+﻿using DartAppClean.Application.Match.Queries.TeamQueries;
 
 namespace DartAppClean.Application.Game;
 
@@ -11,7 +6,7 @@ namespace DartAppClean.Application.Game;
 public sealed class GameStateDto
 {
     public int GameId { get; init; }
-    public IReadOnlyList<string> TurnOrder { get; init; } = [];
+    public ICollection<string> TurnOrder { get; init; } = [];
     public string? CurrentPlayer { get; init; }
     public string? WinnerUsername { get; init; }
     public bool Winner => !string.IsNullOrEmpty(WinnerUsername);

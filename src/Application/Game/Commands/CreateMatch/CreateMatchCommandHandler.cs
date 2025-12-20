@@ -6,7 +6,7 @@ namespace DartAppClean.Application.Match.Commands.CreateMatch;
 public record CreateMatchCommand : IRequest<int>
 {
     public GameTypesEnum GameType { get; init; }
-    public X01TypeEnum? X01TypeEnum { get; init; }
+    public X01TypeEnum X01TypeEnum { get; init; }
     public CricketTypeEnum? CricketTypeEnum { get; init; }
     public bool IsCricket { get; init; } = false;
     public List<string> PlayersName { get; init; } = new List<string>();
@@ -26,7 +26,7 @@ public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, int
 
     public async Task<int> Handle(CreateMatchCommand request, CancellationToken cancellationToken)
     {
-        var match = Domain.Entities.GameEntites.Match.Create(request.GameType, request.X01TypeEnum, request.CricketTypeEnum);
+        var match = Domain.Entities.GameEntites.Match.Create(request.GameType, request.X01TypeEnum);
         match.AssignTeams(request.PlayersName, request.TeamsMode, request.Score);
         await _matchRepository.AddAsync(match, cancellationToken);
         return match.Id;

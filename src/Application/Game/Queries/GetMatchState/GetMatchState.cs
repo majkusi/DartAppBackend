@@ -1,8 +1,5 @@
 ﻿using DartAppClean.Application.Common.Interfaces;
-using DartAppClean.Application.Game.Queries;
 using DartAppClean.Application.Match.Queries.TeamQueries;
-using DartAppClean.Domain.IRepositories;
-using DartAppClean.Domain.Services;
 
 namespace DartAppClean.Application.Match.Queries.GetMatchState;
 
@@ -10,7 +7,7 @@ public record GetMatchStateCommand(int GameId) : IRequest<GetMatchStateResponse>
 
 public record GetMatchStateResponse(
     int GameId,
-    IReadOnlyList<string> TurnOrder,
+    ICollection<string> TurnOrder,
     string? CurrentPlayer,
     IReadOnlyList<TeamsDto> Teams,
     bool Finished,
@@ -20,11 +17,11 @@ public record GetMatchStateResponse(
 public class GetMatchState : IRequestHandler<GetMatchStateCommand, GetMatchStateResponse>
 {
     private readonly IMatchReadRepository _matchReadRepository;
-    
+
     public GetMatchState(
         IMatchReadRepository matchReadRepository
        )
-    {       
+    {
         _matchReadRepository = matchReadRepository;
     }
 

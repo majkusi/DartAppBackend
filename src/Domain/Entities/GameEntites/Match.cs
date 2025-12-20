@@ -12,20 +12,19 @@
         public string CurrentPlayer { get; set; } = String.Empty;
         public bool GameFinished { get; set; } = false;
         public string WinnerUsername { get; set; } = String.Empty;
-        public List<string> TurnOrder { get; set; } = new List<string>();
+        public ICollection<string> TurnOrder { get; set; } = new List<string>();
 
         public Match() { }
-        public Match(GameTypesEnum gameType, X01TypeEnum? x01Type, CricketTypeEnum? cricketType)
+        public Match(GameTypesEnum gameType, X01TypeEnum? x01Type)
         {
             GameTypes = gameType;
             X01TypeEnum = x01Type;
-            CricketTypeEnum = cricketType;
+
         }
 
-        public static Match Create(GameTypesEnum gameType, X01TypeEnum? x01Type, CricketTypeEnum? cricketType)
+        public static Match Create(GameTypesEnum gameType, X01TypeEnum x01Type)
         {
-            if (x01Type is not null && cricketType is not null) throw new ArgumentException("Both X01 and Cricket are tried to be set! Match can only be one of them!");
-            var match = new Match(gameType, x01Type, cricketType);
+            var match = new Match(gameType, x01Type);
             match.AddDomainEvent(new MatchCreatedEvent(match));
             return match;
         }

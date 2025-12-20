@@ -5,13 +5,13 @@ public class TurnOrderService : ITurnOrderService
 {
     public string CalculateNextPlayer(Match match, string currentPlayer)
     {
-        if (match.TurnOrder == null || match.TurnOrder.Count == 0)
+        var list = match.TurnOrder as IList<string>;
+        if (match.TurnOrder == null || match.TurnOrder.Count == 0 || list is null)
             return "Turn Order is null or empty";
-
-        int indexOfCurrentPlayer = match.TurnOrder.IndexOf(currentPlayer);
+        int indexOfCurrentPlayer = list.IndexOf(currentPlayer);
 
         int nextIndex = (indexOfCurrentPlayer + 1) % match.TurnOrder.Count;
 
-        return match.TurnOrder[nextIndex];
+        return list[nextIndex];
     }
 }

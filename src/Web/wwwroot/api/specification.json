@@ -6,43 +6,10 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/Game": {
+    "/api/MatchEndpoint": {
       "post": {
         "tags": [
-          "Game"
-        ],
-        "operationId": "CreateGame",
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateMatchCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Match": {
-      "post": {
-        "tags": [
-          "Match"
+          "MatchEndpoint"
         ],
         "operationId": "CreateMatch",
         "requestBody": {
@@ -72,10 +39,10 @@
         }
       }
     },
-    "/api/Match/{id}": {
+    "/api/MatchEndpoint/{id}": {
       "get": {
         "tags": [
-          "Match"
+          "MatchEndpoint"
         ],
         "operationId": "GetMatchById",
         "parameters": [
@@ -107,10 +74,10 @@
         }
       }
     },
-    "/api/Match/matchstate/{id}": {
+    "/api/MatchEndpoint/matchstate/{id}": {
       "get": {
         "tags": [
-          "Match"
+          "MatchEndpoint"
         ],
         "operationId": "GetMatchState",
         "parameters": [
@@ -142,10 +109,10 @@
         }
       }
     },
-    "/api/Round": {
+    "/api/RoundEndpoint": {
       "post": {
         "tags": [
-          "Round"
+          "RoundEndpoint"
         ],
         "operationId": "CreateRound",
         "requestBody": {
@@ -175,10 +142,10 @@
         }
       }
     },
-    "/api/Team/{id}": {
+    "/api/TeamEndpoint/{id}": {
       "get": {
         "tags": [
-          "Team"
+          "TeamEndpoint"
         ],
         "operationId": "GetTeamsByMatchId",
         "parameters": [
@@ -988,12 +955,18 @@
             "$ref": "#/components/schemas/GameTypesEnum"
           },
           "x01TypeEnum": {
+            "$ref": "#/components/schemas/X01TypeEnum"
+          },
+          "cricketTypeEnum": {
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/X01TypeEnum"
+                "$ref": "#/components/schemas/CricketTypeEnum"
               }
             ]
+          },
+          "isCricket": {
+            "type": "boolean"
           },
           "playersName": {
             "type": "array",
@@ -1036,6 +1009,18 @@
           1,
           2,
           3
+        ]
+      },
+      "CricketTypeEnum": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "CRICKET200",
+          "CRICKETTEAM400"
+        ],
+        "enum": [
+          0,
+          1
         ]
       },
       "MatchVm": {
@@ -1086,18 +1071,6 @@
             }
           }
         }
-      },
-      "CricketTypeEnum": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "CRICKET200",
-          "CRICKETTEAM400"
-        ],
-        "enum": [
-          0,
-          1
-        ]
       },
       "Team": {
         "allOf": [
@@ -1169,6 +1142,9 @@
               "gameStartTime": {
                 "type": "string",
                 "format": "date-time"
+              },
+              "isCricket": {
+                "type": "boolean"
               },
               "teams": {
                 "type": "array",
@@ -1334,6 +1310,25 @@
           "order": {
             "type": "integer",
             "format": "int32"
+          },
+          "x01Average": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "roundCounter": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isCricket": {
+            "type": "boolean"
+          },
+          "pointsPerRound": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
           }
         }
       },
@@ -1394,12 +1389,12 @@
           "players": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/TeamPlayerDto"
+              "$ref": "#/components/schemas/TeamPlayerX01Dto"
             }
           }
         }
       },
-      "TeamPlayerDto": {
+      "TeamPlayerX01Dto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
