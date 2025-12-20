@@ -1,8 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DartAppClean.Domain.Entities.GameEntites;
+﻿using DartAppClean.Domain.Entities.GameEntites;
 using DartAppClean.Domain.Enums;
 using NUnit.Framework;
 
@@ -15,7 +11,7 @@ namespace DartAppClean.Domain.UnitTests.EntityTests
         public void Create_ShouldInitializeProperties_AndRaiseDomainEvent()
         {
             var gameType = GameTypesEnum.X01;
-            X01TypeEnum? x01Type = X01TypeEnum.DIDO;
+            X01TypeEnum x01Type = X01TypeEnum.DIDO;
             var match = Match.Create(gameType, x01Type);
             Assert.That(match.GameTypes, Is.EqualTo(gameType));
             Assert.That(match.X01TypeEnum, Is.EqualTo(x01Type));
@@ -83,7 +79,7 @@ namespace DartAppClean.Domain.UnitTests.EntityTests
         public void AssignTeams_SoloMode_SinglePlayerTeams_TurnOrder_CurrentPlayer()
         {
             var players = new List<string> { "alice", "bob", "carol" };
-            var match = Match.Create(GameTypesEnum.CRICKET, null);
+            var match = Match.Create(GameTypesEnum.CRICKET, X01TypeEnum.SISO);
             int score = 0;
             bool teamsMode = false;
 

@@ -1,12 +1,6 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using DartAppClean.Application.Match.Commands.CreateMatch;
+﻿using DartAppClean.Application.Match.Commands.CreateMatch;
 using DartAppClean.Domain.Enums;
 using DartAppClean.Domain.IRepositories;
-using DartAppClean.Domain.Entities.GameEntites;
 using Moq;
 using NUnit.Framework;
 using MatchEntity = DartAppClean.Domain.Entities.GameEntites.Match;
@@ -72,7 +66,7 @@ namespace DartAppClean.Application.UnitTests.Match.Commands
             var ex = Assert.ThrowsAsync<ArgumentException>(async () =>
                 await _handler.Handle(cmd, cts.Token));
 
-            Assert.That(ex!.Message, Does.Contain("Teams mode")); 
+            Assert.That(ex!.Message, Does.Contain("Teams mode"));
             _repoMock.Verify(r => r.AddAsync(It.IsAny<MatchEntity>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -107,7 +101,7 @@ namespace DartAppClean.Application.UnitTests.Match.Commands
             var cmd = new CreateMatchCommand
             {
                 GameType = GameTypesEnum.CRICKET,
-                X01TypeEnum = null,
+                X01TypeEnum = X01TypeEnum.SISO,
                 PlayersName = new List<string> { "alice" },
                 TeamsMode = false,
                 Score = 0
