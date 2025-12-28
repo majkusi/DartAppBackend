@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>DartAppClean.Infrastructure</RootNamespace>
     <AssemblyName>DartAppClean.Infrastructure</AssemblyName>
