@@ -15,7 +15,7 @@
         public ICollection<string> TurnOrder { get; set; } = new List<string>();
 
         public Match() { }
-        public Match(GameTypesEnum gameType, X01TypeEnum? x01Type)
+        public Match(GameTypesEnum gameType, X01TypeEnum x01Type)
         {
             GameTypes = gameType;
             X01TypeEnum = x01Type;
