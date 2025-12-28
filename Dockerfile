@@ -7,21 +7,18 @@ WORKDIR /src
 # Copy solution file
 COPY *.sln .
 
-# Copy all backend projects recursively
+# Copy all backend and test projects recursively
 COPY src/ src/
 COPY tests/ tests/
 
 # Restore all projects
 RUN dotnet restore
 
-# Copy everything else
+# Copy remaining files
 COPY . .
 
 # Build and publish Web project
-RUN dotnet publish src/Web/Web.csproj \
-    -c Release \
-    -o /app/publish \
-    /p:UseAppHost=false
+RUN dotnet publish src/Web/Web.csproj -c Release -o /app/publish /p:UseAppHost=false
 
 # ============================
 # Runtime stage
@@ -29,14 +26,14 @@ RUN dotnet publish src/Web/Web.csproj \
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 
-# Environment variables for container hosting
+# Environment variables
 ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Development
 
 # Copy published output
 COPY --from=build /app/publish .
 
-# Expose port used by the API
+# Expose port
 EXPOSE 8080
 
 # Health check
