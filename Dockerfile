@@ -1,17 +1,24 @@
 # ============================
 # Build stage
 # ============================
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copy solution and restore
+# Copy solution file
 COPY *.sln .
-COPY src/*/*.csproj ./src/
+
+# Copy all backend projects recursively
+COPY src/ src/
+COPY tests/ tests/
+
+# Restore all projects
 RUN dotnet restore
 
-# Copy everything else and build
+# Copy everything else
 COPY . .
-RUN dotnet publish \
+
+# Build and publish Web project
+RUN dotnet publish src/Web/Web.csproj \
     -c Release \
     -o /app/publish \
     /p:UseAppHost=false
@@ -19,7 +26,7 @@ RUN dotnet publish \
 # ============================
 # Runtime stage
 # ============================
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 
 # Environment variables for container hosting
@@ -37,4 +44,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
   CMD curl -f http://localhost:8080/health || exit 1
 
 # Run the API
-ENTRYPOINT ["dotnet", "DartAppClean.dll"]
+ENTRYPOINT ["dotnet", "Web.dll"]
