@@ -1,4 +1,5 @@
-﻿using DartAppClean.Application.Common.Interfaces;
+﻿using DartAppClean.Application.Common;
+using DartAppClean.Application.Common.Interfaces;
 using DartAppClean.Domain.Events;
 using DartAppClean.Domain.IRepositories;
 using Microsoft.Extensions.Logging;

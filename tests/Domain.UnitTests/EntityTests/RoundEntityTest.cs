@@ -18,7 +18,8 @@ public class RoundEntityTest
             20,
             "player1"
         );
-        Assert.NotNull(round);
+        Assert.That(round, Is.Not.Null);
+
     }
     [Test]
     public void Create_ShouldThrow_WhenMatchIdIsLessThenZero()

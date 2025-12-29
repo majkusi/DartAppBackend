@@ -147,7 +147,7 @@ namespace DartAppClean.Application.UnitTests.Match.Events
             var cts = new CancellationTokenSource();
             await _handler.Handle(evt, cts.Token);
 
-            Assert.IsTrue(winnerPlayer.Winner);
+            Assert.That(winnerPlayer.Winner, Is.True);
             Assert.That(match.WinnerUsername, Is.EqualTo("alice"));
         }
 

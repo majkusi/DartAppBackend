@@ -76,7 +76,7 @@ namespace Application.FunctionalTests.Repositories
 
             var state = await repo.GetGameStateAsync(matchId, CancellationToken.None);
 
-            Assert.NotNull(state);
+            Assert.That(state, Is.Not.Null);
             Assert.That(state.GameId, Is.EqualTo(matchId));
             Assert.That(state.TurnOrder, Is.EqualTo(new[] { "alice", "bob" }));
             Assert.That(state.CurrentPlayer, Is.EqualTo("alice"));

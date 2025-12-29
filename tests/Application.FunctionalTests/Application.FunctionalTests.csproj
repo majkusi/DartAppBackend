@@ -17,9 +17,11 @@
       </Content>
     </ItemGroup>
     <ItemGroup>
+      <PackageReference Include="MediatR" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
       <PackageReference Include="Microsoft.Data.SqlClient" />
       <PackageReference Include="Microsoft.NET.Test.Sdk" />
+      <PackageReference Include="Newtonsoft.Json" />
       <PackageReference Include="nunit" />
       <PackageReference Include="NUnit.Analyzers">
         <PrivateAssets>all</PrivateAssets>

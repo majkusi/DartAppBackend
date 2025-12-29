@@ -6,7 +6,6 @@
     <RootNamespace>DartAppClean.Domain</RootNamespace>
     <AssemblyName>DartAppClean.Domain</AssemblyName>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="MediatR" />
   </ItemGroup>
