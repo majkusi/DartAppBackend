@@ -41,4 +41,8 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
   CMD curl -f http://localhost:8080/health || exit 1
 
 # Run the API
+<<<<<<< HEAD
 ENTRYPOINT ["dotnet", "DartAppClean.Web.dll"]
+=======
+ENTRYPOINT ["dotnet", "DartAppClean.Web.dll"]
+>>>>>>> 3ac06ccf52b0d5010f24c110e50276dc33669e69
