@@ -5,6 +5,7 @@
   <PropertyGroup>
     <RootNamespace>DartAppClean.Application</RootNamespace>
     <AssemblyName>DartAppClean.Application</AssemblyName>
+    <UserSecretsId>96bbf38c-cd53-4e93-a53c-dc95f0481e4e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
