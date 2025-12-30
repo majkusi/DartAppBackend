@@ -3,6 +3,7 @@ using DartAppClean.Domain.Entities;
 using DartAppClean.Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -36,13 +37,25 @@ public class ApplicationDbContextInitialiser
         _roleManager = roleManager;
     }
 
+    //public async Task InitialiseAsync()
+    //{
+    //    try
+    //    {
+    //        // See https://jasontaylor.dev/ef-core-database-initialisation-strategies
+    //        await _context.Database.EnsureDeletedAsync();
+    //        await _context.Database.EnsureCreatedAsync();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        _logger.LogError(ex, "An error occurred while initialising the database.");
+    //        throw;
+    //    }
+    //}
     public async Task InitialiseAsync()
     {
         try
         {
-            // See https://jasontaylor.dev/ef-core-database-initialisation-strategies
-            await _context.Database.EnsureDeletedAsync();
-            await _context.Database.EnsureCreatedAsync();
+            await _context.Database.MigrateAsync();
         }
         catch (Exception ex)
         {
