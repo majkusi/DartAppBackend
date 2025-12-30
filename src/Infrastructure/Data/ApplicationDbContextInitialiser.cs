@@ -54,16 +54,31 @@ public class ApplicationDbContextInitialiser
     //}
     public async Task InitialiseAsync()
     {
-        try
+        const int maxRetries = 10;
+        var delay = TimeSpan.FromSeconds(2);
+
+        for (var attempt = 1; attempt <= maxRetries; attempt++)
         {
-            await _context.Database.MigrateAsync();
+            try
+            {
+                await _context.Database.MigrateAsync();
+                return;
+            }
+            catch (Exception ex) when (attempt < maxRetries)
+            {
+                _logger.LogWarning(
+                    ex,
+                    "Database not ready yet. Retrying migration attempt {Attempt}/{MaxRetries}",
+                    attempt,
+                    maxRetries);
+
+                await Task.Delay(delay);
+            }
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred while initialising the database.");
-            throw;
-        }
+
+        throw new Exception("Database migration failed after multiple retries.");
     }
+
 
     public async Task SeedAsync()
     {
